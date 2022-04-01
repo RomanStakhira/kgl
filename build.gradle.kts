@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "me.user"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -34,7 +34,6 @@ kotlin {
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
 
-    
     sourceSets {
         val commonMain by getting
         val commonTest by getting {

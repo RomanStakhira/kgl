@@ -1,5 +1,10 @@
-package kgl
-
+import Utils.LayoutEngines
+import Utils.show
+import Utils.toGraphviz
+import kgl.Edbl
+import kgl.Eint
+import kgl.MutableGraph
+import kgl.edgeDefaultInt
 import kotlin.test.*
 
 class KGLtest {
@@ -41,11 +46,11 @@ class KGLtest {
         assertNotNull(classUnderTest)
         go.connect('z', "B", Eint(22, "char"))
         val goc = go.copy()
-        /*
+
         goc.setEdges(edgeDefaultInt)
         go.toGraphviz().show()
         goc.toGraphviz().show(engine = LayoutEngines.twopi)
-         */
+
     }
 
     @Test
@@ -112,7 +117,7 @@ class KGLtest {
             connect(3, 1.1, edgeDefaultInt)
             connect('A','A')
             addVertices(9f)
-            setEdge(1,2,Eint(1, "go1"),Edbl(100.0,"setEdge"))
+            setEdge(1,2, Eint(1, "go1"), Edbl(100.0,"setEdge"))
             //toGraphviz().show()
         }
         val go2 = MutableGraph("go2", true)
@@ -120,7 +125,7 @@ class KGLtest {
             connect(1, 'A', Edbl(4.0))
             addNeighbors(2,3,'x')
             connect(3, 'B', Edbl(label = "label(3B)"))
-            setEdge(3,'B',Edbl(7.0, "3-B"))
+            setEdge(3,'B', Edbl(7.0, "3-B"))
             //toGraphviz().show()
         }
         val gSum = go1 + go2
