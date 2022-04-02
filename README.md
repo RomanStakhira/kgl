@@ -1,2 +1,2 @@
 # kgl
-Kotlin Graph Lib
+Kotlin Graph Library
