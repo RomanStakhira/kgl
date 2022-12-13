@@ -2,6 +2,7 @@ plugins {
     val kotlinVersion = "1.6.10"
     kotlin("multiplatform") version kotlinVersion
     kotlin("plugin.serialization") version kotlinVersion
+    id("org.jetbrains.dokka") version "1.7.20"
 }
 
 group = "me.user"
@@ -37,10 +38,9 @@ kotlin {
     }
 
     sourceSets {
-       val serializationVersion = "1.3.2"
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
             }
         }
         val commonTest by getting {
