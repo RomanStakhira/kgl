@@ -3,8 +3,8 @@ import kgl.edgeDefaultInt
 import kotlin.test.*
 
 class BaseTest {
-    val gO = MutableGraph("Oriented")
-    val g = MutableGraph(oriented = false)
+    val gO = MutableGraph("Directed")
+    val g = MutableGraph(directed = false)
     @Test
     fun test1(){
         gO.addVertices(1,'a',"B")

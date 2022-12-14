@@ -5,19 +5,19 @@ package kgl
  * Graph with Edge (weight, label)
  * @property [vertices] Main graph data storage
  * @constructor Creates a new instance of MutableGraph using given input
- * @property [oriented] null if Graph is mixed
+ * @property [directed] null if Graph is mixed
  * @property [name] Name
  */
 //@Serializable
 class MutableGraph(
     override var name: String = "",
-    override val oriented: Boolean? = true
+    override val directed: Boolean? = true
 ) : AbstractGraph() {
 
     override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, Edge<*>?>>>()
 
-    fun copy(newName: String? = null, newOriented: Boolean? = true) =
-        MutableGraph(newName ?: "${name}_Copy", newOriented).also {
+    fun copy(newName: String? = null, newdirected: Boolean? = true) =
+        MutableGraph(newName ?: "${name}_Copy", newdirected).also {
             it.vertices += vertices
         }
 
@@ -94,7 +94,7 @@ class MutableGraph(
         vertices[start as Any] ?: addVertex(start)
         vertices[finish as Any] ?: addVertex(finish)
         vertices[start]!!.add((finish as Any) to edge)
-        if (this.oriented == false) {
+        if (this.directed == false) {
             vertices[finish]!!.add((start as Any) to edge)
         }
     }
@@ -107,7 +107,7 @@ class MutableGraph(
      */
     fun <T> disconnect(start: T, finish: T, edge: Edge<*>? = null) {
         vertices[start as Any]?.remove(vertices[start]!!.find { p -> p.first == finish && p.second == edge })
-        if (this.oriented == false) {
+        if (this.directed == false) {
             vertices[finish as Any]?.remove(vertices[finish]!!.find { p -> p.first == start && p.second == edge })
         }
     }
@@ -119,7 +119,7 @@ class MutableGraph(
      */
     fun <T> disconnectAll(start: T, finish: T) {
         val r = vertices[start as Any]?.remove(vertices[start as Any]!!.find { p -> p.first == finish })
-        if (this.oriented == false) {
+        if (this.directed == false) {
             vertices[finish as Any]?.remove(vertices[finish as Any]!!.find { p -> p.first == start })
         }
         if (r == true) disconnectAll(start, finish)
@@ -137,7 +137,7 @@ class MutableGraph(
         if (start as Any !in vertices.keys || finish as Any !in vertices.keys) return false
         vertices[start]!!.remove(finish as Any to edge)
         vertices[start]!!.add(finish as Any to newEdge)
-        if (this.oriented == false) {
+        if (this.directed == false) {
             vertices[finish]!!.remove(start as Any to edge)
             vertices[finish]!!.add(start as Any to newEdge)
         }
@@ -184,8 +184,8 @@ class MutableGraph(
      * @return a graph containing all vertices and edges from both
      */
     operator fun plus(other: MutableGraph): MutableGraph {
-        val orient: Boolean? = this.oriented?.let { t ->
-            other.oriented?.let { o ->
+        val orient: Boolean? = this.directed?.let { t ->
+            other.directed?.let { o ->
                 if (t && o) {
                     true
                 } else if (!t && !o) {
@@ -214,8 +214,8 @@ class MutableGraph(
     }
 
     operator fun minus(other: MutableGraph): MutableGraph {
-        val orient: Boolean? = this.oriented?.let { t ->
-            other.oriented?.let { o ->
+        val orient: Boolean? = this.directed?.let { t ->
+            other.directed?.let { o ->
                 if (t && o) {
                     true
                 } else if (!t && !o) {

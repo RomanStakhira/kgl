@@ -11,7 +11,7 @@ interface Graph {
      */
     operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
     var name: String
-    val oriented: Boolean?
+    val directed: Boolean?
     val size: Int
         get() = vertices.size
     val edgesNumber: Int
@@ -35,7 +35,7 @@ abstract class AbstractGraph : Graph {
      * @return Graph string
      */
     override fun toString(): String {
-        val delim = this.oriented?.let {
+        val delim = this.directed?.let {
             if (it) '>' else '-'
         } ?: ' '
         val sb = StringBuilder().apply {
@@ -99,6 +99,6 @@ abstract class AbstractGraph : Graph {
      * @param [v] vertex
      * @return Set of neighbors of vertex or null if No such vertex
      */
-    fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet() // ?: setOf<Any>()
+    fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet()  //?: setOf<Any>()
 }
 

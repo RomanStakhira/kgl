@@ -6,15 +6,17 @@ package kgl
  * @param end
  */
 fun MutableGraph.dfs(start: Any, finish: Any) : Number? =
-    dfs(this[start], this[finish], setOf())
+    dfs(start, finish, setOf())
 
 private fun MutableGraph.dfs(start: Any, finish: Any, visited: Set<Any>): Number? =
     if (start == finish) 0
     else {
         val min = this.neighbors(start)
             ?.filter { it !in visited }
-            //?.mapNotNull { dfs(it, finish, visited + start) }
+            ?.map { dfs(it, finish, visited + start) }
             //.min()
+
         //if (min == null) null else min + 1
-        null
+        println("${start}  ${finish}   ${min}")
+        1
     }

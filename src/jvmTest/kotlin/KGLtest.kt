@@ -9,7 +9,7 @@ import kotlin.test.*
 
 class KGLtest {
     val go = MutableGraph("testOriented")
-    val gIn = MutableGraph("Inner Graph", oriented = false)
+    val gIn = MutableGraph("Inner Graph", directed = false)
 
     data class test1(val x: Int, val y: Int) {
         val z = x + y

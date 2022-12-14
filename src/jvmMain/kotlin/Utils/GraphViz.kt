@@ -17,10 +17,10 @@ enum class LayoutEngines {
 fun MutableGraph.toGraphviz(
     labeled: Boolean = true, weighted: Boolean = true, concentrate: Boolean = true
 ): String {
-    val delim = this.oriented?.let {
+    val delim = this.directed?.let {
         if (it) '>' else '-'
     } ?: '-'
-    val pref = this.oriented?.let {
+    val pref = this.directed?.let {
         if (it) "di" else ""
     } ?: ""
     val sb = StringBuilder().apply {
