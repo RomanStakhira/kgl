@@ -48,8 +48,8 @@ class KGLtest {
         val goc = go.copy()
 
         goc.setEdges(edgeDefaultInt)
-        go.toGraphviz().show()
-        goc.toGraphviz().show(engine = LayoutEngines.twopi)
+        //go.toGraphviz().show()
+        //goc.toGraphviz().show(engine = LayoutEngines.twopi)
 
     }
 
@@ -170,5 +170,7 @@ class KGLtest {
     //println("$go\n\t---------------------------------\n")
     //val stringVertex = g.filter { (key, value) -> key.endsWith("1") && value > 10}
 
-
+    @Test
+    fun t1(){
+    }
 }
