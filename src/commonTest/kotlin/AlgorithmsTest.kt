@@ -1,6 +1,4 @@
-import kgl.Graph
-import kgl.MutableGraph
-import kgl.dfs
+import kgl.*
 import kotlin.test.*
 
 
@@ -8,6 +6,8 @@ class AlgorithmsTest {
     val puc811 = MutableGraph("puc811",false)
     val puc812 = MutableGraph("puc812",true)
     val puc81 by lazy { puc811 + puc812 }
+
+    val w = MutableGraph("wiki",false)
     @BeforeTest
     fun Init(){
         puc811.apply {
@@ -28,12 +28,29 @@ class AlgorithmsTest {
         }
         puc81.name="puc81"
         //println("$puc81")
-
+        w.apply {
+            connect(1,2,Eint(7,"1st"))
+            connect(2,4,Eint(15))
+            connect(4,5,Eint(6))
+            connect(5,6,Eint(9))
+            connect(6,1,Eint(14))
+            connect(1,3,Eint(9))
+            connect(2,3,Eint(10))
+            connect(4,3,Eint(11))
+            connect(6,3,Eint(2))
+            //toGraphviz().show()
+        }
     }
     @Test
     fun dfsTest(){
         puc811.dfs("x1","x3")
         //println("${g.neighbors(2)}")
+
+    }
+    @Test
+    fun testDijkstra(){
+        //println("$w")
+        w.dijkstra(1,5)
 
     }
 }

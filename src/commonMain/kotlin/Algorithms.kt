@@ -3,7 +3,19 @@ package kgl
 /**
  * A depth-first search  for a directed or undirected graph
  * @param start
- * @param end
+ * @param finish
+ */
+fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
+    //val min = this.neighbors(start)?.forEach { println("${getEdge(start ,it) }") } // { getEdge(start,it) }
+val x = vertices[start]?.minOfOrNull { it.second?.weight!!.toDouble() }
+//forEach { println("${it.first} ${it.second?.weight}  ${it.second?.label}") }
+    println("${start}--${finish}   ${x}")
+}
+
+/**
+ * A depth-first search  for a directed or undirected graph
+ * @param start
+ * @param finish
  */
 fun MutableGraph.dfs(start: Any, finish: Any) : Number? =
     dfs(start, finish, setOf())

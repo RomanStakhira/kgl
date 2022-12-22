@@ -1,7 +1,7 @@
 package kgl
 
 interface Graph {
-    val vertices: MutableMap<Any, MutableSet<Pair<Any, Edge<*>?>>>
+    val vertices: MutableMap<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>
 
     /**
      * TODO

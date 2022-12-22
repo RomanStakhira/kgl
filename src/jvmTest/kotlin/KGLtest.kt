@@ -170,7 +170,5 @@ class KGLtest {
     //println("$go\n\t---------------------------------\n")
     //val stringVertex = g.filter { (key, value) -> key.endsWith("1") && value > 10}
 
-    @Test
-    fun t1(){
-    }
+
 }
