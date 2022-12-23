@@ -1,11 +1,7 @@
-import Utils.LayoutEngines
-import Utils.show
-import Utils.toGraphviz
-import kgl.Edbl
-import kgl.Eint
-import kgl.MutableGraph
-import kgl.edgeDefaultInt
 import kotlin.test.*
+import kgl.*
+import kgl.utils.*
+
 
 class KGLtest {
     val go = MutableGraph("testOriented")
@@ -48,8 +44,8 @@ class KGLtest {
         val goc = go.copy()
 
         goc.setEdges(edgeDefaultInt)
-        //go.toGraphviz().show()
-        //goc.toGraphviz().show(engine = LayoutEngines.twopi)
+        go.toGraphviz().show("C:\\tmp")
+        goc.toGraphviz().show("C:\\tmp",engine = LayoutEngines.twopi)
 
     }
 

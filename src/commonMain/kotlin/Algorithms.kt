@@ -6,6 +6,10 @@ package kgl
  * @param finish
  */
 fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
+    // vertex to Pair(lenght,processed)
+    val l = mutableMapOf<Any, Pair<Number, Boolean>>(start to Pair(0,true))    //1
+
+
     //val min = this.neighbors(start)?.forEach { println("${getEdge(start ,it) }") } // { getEdge(start,it) }
 val x = vertices[start]?.minOfOrNull { it.second?.weight!!.toDouble() }
 //forEach { println("${it.first} ${it.second?.weight}  ${it.second?.label}") }
