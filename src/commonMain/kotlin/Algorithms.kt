@@ -1,9 +1,10 @@
 package kgl
 
 /**
- * A depth-first search  for a directed or undirected graph
+ * A Dijkstra search  for a directed or undirected graph
  * @param start
  * @param finish
+ * @return
  */
 fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
     // vertex to Pair(lenght,processed)

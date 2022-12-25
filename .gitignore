@@ -1,0 +1,25 @@
+# These are some examples of commonly ignored file patterns.
+# You should customize this list as applicable to your project.
+# Learn more about .gitignore:
+#     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
+
+
+
+# Log files
+*.log
+
+
+
+# Ignore Gradle project-specific cache directory
+.gradle
+#.gitignore
+
+# Ignore Gradle build output directory
+build
+*.bin
+*.lock
+
+
+
+
+
