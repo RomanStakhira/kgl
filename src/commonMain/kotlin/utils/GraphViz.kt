@@ -6,10 +6,11 @@ enum class LayoutEngines {
 }
 
 /**
- * @return String Compatible with Graphviz
+ * Generate string compatible with Graphviz DOT Language
  * @see <a href="https://graphviz.org/">Graphviz</a>
  * http://magjac.com/graphviz-visual-editor/
  * https://edotor.net/
+ * @return String
  */
 fun MutableGraph.toGraphviz(
     labeled: Boolean = true, weighted: Boolean = true, concentrate: Boolean = true
