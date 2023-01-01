@@ -16,8 +16,8 @@ class MutableGraph(
 
     override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>()
 
-    fun copy(newName: String? = null, newdirected: Boolean? = true) =
-        MutableGraph(newName ?: "${name}_Copy", newdirected).also {
+    fun copy(newName: String? = null) =
+        MutableGraph(newName ?: "${name}_Copy", directed).also {
             it.vertices += vertices
         }
 
@@ -26,7 +26,8 @@ class MutableGraph(
      * @param [v] Vertex object
      */
     private fun <T> addVertex(v: T) {
-        vertices += v as Any to mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
+        //vertices += v as Any to mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
+        vertices[v as Any] = mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
     }
 
     operator fun <T> plus(v: T): MutableGraph {
@@ -205,6 +206,11 @@ class MutableGraph(
         }
         return tmp
     }
+
+
+
+
+
     //-----------------------------------------------------------------------------------------
     private fun <T> objInBundles(o: T): Boolean {
         vertices.keys.forEach { v ->
@@ -224,7 +230,7 @@ class MutableGraph(
             }
         }
         val newName: String = name.replace(other.name, "")
-        val tmp = this.copy(newName, orient)
+        val tmp = this.copy(newName)
         val vertToRemove = mutableSetOf<Any>()
         val itrVert = tmp.vertices.keys.iterator()
         itrVert.forEach { tmpVert ->
@@ -254,8 +260,8 @@ class MutableGraph(
      * @param [finish] list of neighbors
      */
     fun <T> addNeighbors(start: T, vararg finish : T) {
-        finish.forEach { t->
-            connect(start, t)
+        finish.forEach {
+            connect(start, it)
         }
     }
 

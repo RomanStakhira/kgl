@@ -41,11 +41,11 @@ abstract class AbstractGraph : Graph {
         val sb = StringBuilder().apply {
             appendLine("${name}  ($size Vertices, $edgesNumber Edges){")
         }
-        vertices.forEach { v ->
-            if (v.value.isEmpty()) sb.appendLine("${v.key}") // Lonely vertex
-            else v.value.forEach { s ->
+        vertices.forEach { (key, value) ->
+            if (value.isEmpty()) sb.appendLine("${key}") // Lonely vertex
+            else value.forEach { s ->
                 sb.apply {
-                    append(" ${v.key} -$delim ${s.first}")
+                    append(" ${key} -$delim ${s.first}")
                     s.second?.let {
                         append(" [")
                         append(s.second!!.label?.let { "\"${it}\"" } ?: "")
@@ -79,20 +79,23 @@ abstract class AbstractGraph : Graph {
         }
 
     /**
-     * Are all weights >=0
+     * Are all weights in graph >=0
      */
     val weightsPositive: Boolean
         get() {
-            var res = true
+            var allPositive = true
             outerLoop@ for (v in vertices.keys) {
-                for (p in vertices[v]!!.toSet()) {
-                    res = p.second?.weight?.let {
-                        it.toDouble() >= 0
-                    } ?: false
-                    if (!res) break@outerLoop
+                val edges = vertices[v]
+                if (edges!!.isNotEmpty()){
+                    for (e in edges) {
+                        allPositive = e.second?.weight?.let {
+                            it.toDouble() >= 0
+                        } ?: false
+                        if (!allPositive) break@outerLoop
+                    }
                 }
             }
-            return res
+            return allPositive
         }
     /**
      * Neighbors of vertex

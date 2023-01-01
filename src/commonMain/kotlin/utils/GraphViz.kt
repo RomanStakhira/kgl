@@ -10,10 +10,11 @@ enum class LayoutEngines {
  * @see <a href="https://graphviz.org/">Graphviz</a>
  * http://magjac.com/graphviz-visual-editor/
  * https://edotor.net/
- * @return String
+ * @return String that can be passed to Graphviz
  */
 fun MutableGraph.toGraphviz(
-    labeled: Boolean = true, weighted: Boolean = true, concentrate: Boolean = true
+    labeled: Boolean = true, weighted: Boolean = true,
+    concentrate: Boolean = true, colorMap: Map<Any?, Int>? = null
 ): String {
     val delim = this.directed?.let {
         if (it) '>' else '-'
@@ -21,6 +22,9 @@ fun MutableGraph.toGraphviz(
     val pref = this.directed?.let {
         if (it) "di" else ""
     } ?: ""
+
+
+    // Start the string creation
     val sb = StringBuilder().apply {
         appendLine("${pref}graph \"${name}\" {")
         appendLine("concentrate=$concentrate")
@@ -29,7 +33,16 @@ fun MutableGraph.toGraphviz(
             appendLine("edge [fontsize=8,fontcolor=gray40, decorate=true]")
         }
         appendLine("node [color=\"black\", fillcolor = \"white\", style=\"filled,solid\", fontsize=12]")
-        vertices.keys.forEach {
+        // colorMap not null
+        colorMap?.let {c->
+            vertices.keys.forEach {v->
+                    val color = c[v]?.let {
+                    if (it< colors.size) colors[it]// too much colors
+                        else "0000000f"
+                }
+                appendLine("\"${v}\" [fillcolor = $color]")
+            }
+        } ?: vertices.keys.forEach {
             val color = when (it::class.qualifiedName) {
                 "kotlin.Boolean" -> "violet"
                 "kotlin.Char" -> "yellow2"
@@ -45,9 +58,9 @@ fun MutableGraph.toGraphviz(
             }
             appendLine("\"${it}\" [fillcolor = $color]")
         }
-        vertices.forEach { v ->
-            v.value.forEach { s ->
-                append(" \"${v.key}\" -$delim \"${s.first}\"")
+        vertices.forEach { (key, value) ->
+            value.forEach { s ->
+                append(" \"${key}\" -$delim \"${s.first}\"")
                 s.second?.let {
                     append(" [")
                     if (labeled) {

@@ -93,14 +93,16 @@ class KGLtest {
         val gA = MutableGraph("", null)
         gA.connect(2, 3, Eint(2))
         gA.connect(3, 5, Edbl(2.0))
-        assertTrue(gA.weightsPositive, "Weights Positive")
+        assertTrue(gA.weightsPositive!!, "Weights Positive")
         gA.connect(3, 4)
         gA.connect(1, 2, Eint(-11))
         assertFalse(gA.hasNoose, "Has no cycle")
         gA.connect(3, 3, Eint(77, "cycle 33"))
         gA.connect(5, 5)
-        assertFalse(gA.weightsPositive, "Weights Negative")
+        assertFalse(gA.weightsPositive!!, "Weights Negative")
         assertTrue(gA.hasNoose, "Has cycle")
+        gA.toGraphviz().show("C:\\tmp")
+
     }
 
     @Test
