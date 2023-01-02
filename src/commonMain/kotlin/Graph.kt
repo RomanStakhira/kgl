@@ -1,5 +1,7 @@
 package kgl
 
+import kotlin.math.sign
+
 interface Graph {
     val vertices: MutableMap<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>
 
@@ -22,6 +24,16 @@ interface Graph {
             }
             return res
         }
+    val chromaticNumber: Int
+    get(){
+       return this.greedyColoring().values.maxOf { it }+1
+    }
+    /**
+     * Neighbors of vertex
+     * @param [v] vertex
+     * @return Set of neighbors of vertex or null if No such vertex
+     */
+    fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet()  //?: setOf<Any>()
 }
 
 abstract class AbstractGraph : Graph {
@@ -97,11 +109,6 @@ abstract class AbstractGraph : Graph {
             }
             return allPositive
         }
-    /**
-     * Neighbors of vertex
-     * @param [v] vertex
-     * @return Set of neighbors of vertex or null if No such vertex
-     */
-    fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet()  //?: setOf<Any>()
+
 }
 

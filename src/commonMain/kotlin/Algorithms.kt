@@ -46,6 +46,7 @@ fun bfs(start: Any, finish: Any): Int {
     val queue = ArrayDeque<Any>()
     queue.add(start)
     val visited = mutableMapOf(start to 0)
+
     while (queue.isNotEmpty()) {
         /*
         val next = queue.poll()
@@ -63,47 +64,41 @@ fun bfs(start: Any, finish: Any): Int {
 }
 
 /**
- * greedy coloring
+ * Greedy coloring
  *
- * @param maxColors
+ * @param [maxColors] The maximum number of colors for coloring (start from 0) default: Int.MAX_VALUE,
+ * @param [seed]  Start vertex
+ * @return Map<Any?, Int>(vertex, color) or empty map if [maxColors] has been exceeded
  */
-fun MutableGraph.greedyColoring (maxColors: Int = Int.MAX_VALUE, seed: Any? = null) : Map<Any?, Int>{
-    //перевірка
-    var colorMap: Map<Any?, Int> by Delegates.observable(mapOf<Any?, Int>()){
-            property, oldValue, newValue ->
-        println("Map changed $oldValue -> $newValue")
-    }
-    if (seed in vertices) colorMap = colorMap.plus(seed to 0)
-    val itrVerices = vertices.keys.iterator()
-    while (vertices.keys.toSet() != colorMap.keys.toSet() && itrVerices.hasNext()){
-        if (itrVerices !in colorMap) colorMap=colorMap.plus(itrVerices to 2)
+fun Graph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
+                                 seed: Any? = null) : Map<Any?, Int>{
+    val colorMap = mutableMapOf<Any?, Int>()
+    val queue = ArrayDeque<Any?>()
+    if (seed in vertices.keys) queue.add(seed)
 
-        println("${itrVerices.next()}")
-    }
-
-    /*
-    while (itrVerices.hasNext()){
-        println("${itrVerices.next()}")
-
-    }
-
-    vertices.keys.forEach {v->
-        if (v !in colorMap) colorMap[v] = 0u
-        val ngthb = neighbors(v)
-        ngthb?.forEach {n->
-            if (n !in colorMap){
-                val minFreeColor: Int = 0u  // TODO
-                for (c in 1u..maxColors){
-                    colorMap[ngthb]
-                }
-                colorMap[n] = minFreeColor
+    vertices.forEach {(key, value)->
+        if (key !in colorMap) queue.add(key)
+        while (queue.isNotEmpty())
+            queue.removeFirstOrNull().let{
+            // min unused color by neighbors
+            for (c  in 0..maxColors)
+                if ( c !in neighbors(it)!!.map {n-> colorMap[n] }){
+                    colorMap[it]=c
+                    break
+                } else if (c==maxColors) return mapOf<Any?, Int>()
+            // neighbors in a queue
+            queue.apply {
+                addAll((neighbors(it)!!-colorMap.keys))
+                val q = queue.toSet()                    //distinct
+                clear()
+                addAll(q)
             }
-
         }
     }
-     */
-    return colorMap
+    return colorMap.toMap()
 }
+
+
 
 
 

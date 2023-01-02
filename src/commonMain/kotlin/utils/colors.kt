@@ -5,9 +5,9 @@ val colors: List<String> = listOf( "white","red","green", "blue","aqua","yellowg
     "blanchedalmond",  "blueviolet", "brown", "burlywood", "cadetblue", "chartreuse", "chocolate",
     "coral", "cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan", "darkgoldenrod", "darkgray",
     "darkgreen", "darkgrey", "darkkhaki", "darkmagenta","lightgrey", "darkolivegreen", "darkorange", "darkorchid", "darkred",
-    "darksalmon", "darkseagreen",  "darkslategray","lightseagreen", "darkslategrey", "darkturquoise", "darkviolet",
+    "darksalmon", "darkseagreen","darkslategray","lightseagreen", "darkslategrey", "darkturquoise", "darkviolet",
     "deeppink", "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forestgreen",
-    "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "grey",  "greenyellow", "honeydew",
+    "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "greenyellow", "honeydew",
     "hotpink", "indianred",  "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon",
     "lightblue", "lightcoral", "lightcyan", "lightgoldenrodyellow", "lightgray", "lightgreen",
     "lightpink", "lightsalmon",  "lightskyblue", "lightslategray", "lightslategrey", "lightsteelblue",
@@ -18,4 +18,4 @@ val colors: List<String> = listOf( "white","red","green", "blue","aqua","yellowg
     "peachpuff", "peru",  "darkslateblue", "powderblue", "purple", "rosybrown", "royalblue", "saddlebrown",
     "salmon", "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue", "slateblue", "slategray",
     "slategrey", "snow", "springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet",
-    "wheat",  "whitesmoke", "yellow","aliceblue", "black")
+    "wheat",  "whitesmoke", "yellow","aliceblue", "gray")

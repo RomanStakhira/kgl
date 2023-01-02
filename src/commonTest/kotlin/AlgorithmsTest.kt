@@ -68,14 +68,21 @@ class AlgorithmsTest {
 
     @Test
     fun greedyColoring(){
-        val tmp = crown.greedyColoring(10)
-            //println("${tmp}")
+        val puc43 = MutableGraph("puc43_Gamma_3",false)
+        puc43.apply {
+            addPath(1,2,3,4,5,6,7,1)
+            addPath(1,3,6)
+            addPath(4,3,7)
+            connect(1,5)
+            connect(4,7)
+            addVertices("A")
+            connect('a','b')
+            connect('a','a')
+        }
+        val cm = puc43.greedyColoring(9,'b')
+            println("${cm}  \n chromaticNumber=${puc43.chromaticNumber}")
 
-        val cm = mutableMapOf<Any?, Int>()
-        for (i in 0..8)
-            cm[i] = i-1
-
-        crown.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.fdp)
+        puc43.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.fdp)
 /*
         val m1 = mapOf<Any,Int>(1 to 1, 3 to 2, 2 to 3)
         var m2: Map<Any, Int> by Delegates.observable(mapOf<Any, Int>()){

@@ -38,8 +38,8 @@ fun MutableGraph.toGraphviz(
             vertices.keys.forEach {v->
                     val color = c[v]?.let {
                     if (it< colors.size) colors[it]// too much colors
-                        else "0000000f"
-                }
+                        else colors.last()
+                } ?: colors.last()
                 appendLine("\"${v}\" [fillcolor = $color]")
             }
         } ?: vertices.keys.forEach {
