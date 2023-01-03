@@ -6,7 +6,7 @@ package kgl
  * @property [vertices] Main graph data storage
  * @constructor Creates a new instance of MutableGraph using given input
  * @property [directed] null if Graph is mixed
- * @property [name] Name
+ * @property [name] Graph name
  */
 //@Serializable
 class MutableGraph(
@@ -178,7 +178,16 @@ class MutableGraph(
             }
         }
     }
-
+    /**
+     * Adds new neighboring peaks. Edge set null
+     * @param [start] start
+     * @param [finish] list of neighbors
+     */
+    fun <T> addNeighbors(start: T, vararg finish : T) {
+        finish.forEach {
+            connect(start, it)
+        }
+    }
     /**
      * Create a new graph
      * @param [other]
@@ -254,16 +263,7 @@ class MutableGraph(
         return tmp
     }
 
-    /**
-     * Adds new neighboring peaks. Edge set null
-     * @param [start] start
-     * @param [finish] list of neighbors
-     */
-    fun <T> addNeighbors(start: T, vararg finish : T) {
-        finish.forEach {
-            connect(start, it)
-        }
-    }
+
 
     fun <T> addPath(start: T, vararg finish: T) {
         var tmp = start

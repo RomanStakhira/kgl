@@ -1,17 +1,16 @@
 package kgl
 
-import kotlin.math.sign
 
+/**
+ * TODO
+ *
+ * @property [vertices] Main graph data storage
+ * @return
+ */
 interface Graph {
     val vertices: MutableMap<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>
 
-    /**
-     * TODO
-     *
-     * @param [v]
-     * @return
-     */
-    operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
+    //operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
     var name: String
     val directed: Boolean?
     val size: Int
@@ -24,10 +23,6 @@ interface Graph {
             }
             return res
         }
-    val chromaticNumber: Int
-    get(){
-       return this.greedyColoring().values.maxOf { it }+1
-    }
     /**
      * Neighbors of vertex
      * @param [v] vertex
@@ -80,18 +75,18 @@ abstract class AbstractGraph : Graph {
     }
 
     /**
-     * vertex connected to itself
+     * Are the vertex connected to itself ?
      */
     val hasNoose: Boolean
         get() {
-            vertices.keys.forEach {
-                if (neighbors(it)?.contains(it) == true) return true
+            vertices.forEach { (key, value)->
+                if (key in value.map { it.first }.toSet()) return true
             }
             return false
         }
 
     /**
-     * Are all weights in graph >=0
+     * Are all weights in graph >=0 ?
      */
     val weightsPositive: Boolean
         get() {

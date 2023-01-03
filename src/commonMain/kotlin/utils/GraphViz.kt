@@ -14,7 +14,7 @@ enum class LayoutEngines {
  */
 fun MutableGraph.toGraphviz(
     labeled: Boolean = true, weighted: Boolean = true,
-    concentrate: Boolean = true, colorMap: Map<Any?, Int>? = null
+    concentrate: Boolean = true, colorMap: Map<Any, Int>? = null
 ): String {
     val delim = this.directed?.let {
         if (it) '>' else '-'

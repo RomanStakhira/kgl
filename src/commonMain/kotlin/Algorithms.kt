@@ -1,7 +1,5 @@
 package kgl
 
-import kotlin.properties.Delegates
-
 /**
  * A Dijkstra search  for a directed or undirected graph
  * @param [start]
@@ -9,10 +7,10 @@ import kotlin.properties.Delegates
  * @return
  */
 fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
-    // vertex to Pair(lenght,processed)
-    val l = mutableMapOf<Any, Pair<Number, Boolean>>(start to Pair(0,true))    //1
+    // vertex to Pair(lenght,path)
+    val l = mutableMapOf<Any?, Pair<Number, MutableList<Any?>>>(start to Pair(0, mutableListOf<Any?>(0)))    //1
 
-
+this.rmVertices(1)
     //val min = this.neighbors(start)?.forEach { println("${getEdge(start ,it) }") } // { getEdge(start,it) }
 val x = vertices[start]?.minOfOrNull { it.second?.weight!!.toDouble() }
 //forEach { println("${it.first} ${it.second?.weight}  ${it.second?.label}") }
@@ -70,34 +68,35 @@ fun bfs(start: Any, finish: Any): Int {
  * @param [seed]  Start vertex
  * @return Map<Any?, Int>(vertex, color) or empty map if [maxColors] has been exceeded
  */
-fun Graph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
-                                 seed: Any? = null) : Map<Any?, Int>{
-    val colorMap = mutableMapOf<Any?, Int>()
-    val queue = ArrayDeque<Any?>()
-    if (seed in vertices.keys) queue.add(seed)
+fun MutableGraph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
+                                 seed: Any? = null) : Map<Any, Int>{
+    if (hasNoose) throw Exception("Graph has noose")
+    val colorMap = mutableMapOf<Any, Int>()
+    val queue = mutableSetOf<Any>()
+    if (seed in vertices.keys) queue.add(seed!!)
 
     vertices.forEach {(key, value)->
         if (key !in colorMap) queue.add(key)
         while (queue.isNotEmpty())
-            queue.removeFirstOrNull().let{
+            //queue get first & remove
+            (queue.first().also { queue.remove(it) }).let{
             // min unused color by neighbors
-            for (c  in 0..maxColors)
-                if ( c !in neighbors(it)!!.map {n-> colorMap[n] }){
-                    colorMap[it]=c
+            for (minColor  in 0..maxColors)
+                if ( minColor !in neighbors(it)!!.map {n-> colorMap[n] }){
+                    colorMap[it]=minColor
                     break
-                } else if (c==maxColors) return mapOf<Any?, Int>()
+                } else if (minColor == maxColors) return throw Exception("Too much colors !")
             // neighbors in a queue
-            queue.apply {
-                addAll((neighbors(it)!!-colorMap.keys))
-                val q = queue.toSet()                    //distinct
-                clear()
-                addAll(q)
-            }
+            queue.addAll((neighbors(it)!!-colorMap.keys))
         }
     }
     return colorMap.toMap()
 }
 
+val MutableGraph.chromaticNumber: Int
+    get(){
+        return this.greedyColoring().values.maxOf{ it }+1
+    }
 
 
 

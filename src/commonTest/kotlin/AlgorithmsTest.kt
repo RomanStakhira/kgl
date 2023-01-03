@@ -33,19 +33,7 @@ class AlgorithmsTest {
         }
         puc81.name="puc81"
         //println("$puc81")
-        w.apply {
-            connect(1,2,Eint(7,"1st"))
-            connect(2,4,Eint(15))
-            connect(4,5,Eint(6))
-            connect(5,6,Eint(9))
-            connect(6,1,Eint(14))
-            connect(1,3,Eint(9))
-            connect(2,3,Eint(10))
-            connect(4,3,Eint(11))
-            connect(6,3,Eint(2))
-            //toGraphviz().show()
-        }
-
+        
         crown.apply {
             addNeighbors(1,6,7,8)
             addNeighbors(2,5,7,8)
@@ -60,9 +48,24 @@ class AlgorithmsTest {
 
     }
     @Test
-    fun testDijkstra(){
-        //println("$w")
+    fun DijkstraTest(){
+        w.apply {
+            connect(1,2,Edge(7,))
+            connect(2,4,Edge(15))
+            connect(4,5,Edge(6))
+            connect(5,6,Edge(9))
+            connect(6,1,Edge(14))
+            connect(1,3,Edge(9))
+            connect(2,3,Edge(10))
+            connect(4,3,Edge(11))
+            connect(6,3,Edge(2))
+        }
+        val cm = mapOf<Any,Int>(1 to 1, 2 to 2, 3 to 3)
+        w.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.sfdp)
+        println("$w  ${w.weightsPositive}")
+
         w.dijkstra(1,5)
+
 
     }
 
@@ -75,31 +78,21 @@ class AlgorithmsTest {
             addPath(4,3,7)
             connect(1,5)
             connect(4,7)
-            addVertices("A")
+            addVertices('A')
+            //connect('A','A')
             connect('a','b')
-            connect('a','a')
+            connect('a',1)
+            connect('a',2)
+            connect('b',6)
+            addNeighbors('X',1,2,3,7)
         }
-        val cm = puc43.greedyColoring(9,'b')
-            println("${cm}  \n chromaticNumber=${puc43.chromaticNumber}")
-
+        val cm = puc43.greedyColoring(8,'1')
+        println("$cm  \n chromaticNumber=${puc43.chromaticNumber} \n Noose =  ${puc43.hasNoose}")
         puc43.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.fdp)
-/*
-        val m1 = mapOf<Any,Int>(1 to 1, 3 to 2, 2 to 3)
-        var m2: Map<Any, Int> by Delegates.observable(mapOf<Any, Int>()){
-                property, oldValue, newValue ->
-            println("Map changed $oldValue -> $newValue")
-        }
-        var i = 3
-        while (i> -3 && m1.keys.toSet() != m2.keys.toSet()){
-            m2 = m2.plus(i to i*2)
-            i--
-        }
-        println("$i $m1 $m2     ${m1.keys.toSet() == m2.keys.toSet()}")
-        m2 = m2.plus(3 to 999)
-        println(" $m2 ")
+        //assertEquals(4, puc43.chromaticNumber,"Wrongch Comatic Number!")
 
-         */
 
     }
+
 }
 

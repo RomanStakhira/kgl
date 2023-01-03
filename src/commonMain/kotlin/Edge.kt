@@ -5,6 +5,8 @@ interface  interfaceEdge <T:Number> {
     val label: String?
 }
 
+data class Edge <T: Number >(override val weight:  T? = null,
+                             override val label: String? = null) : interfaceEdge<T> {}
 
 data class EdgeDouble ( override val weight: Double? = null,
                         override val label: String? = null) : interfaceEdge<Double> {}
@@ -18,3 +20,4 @@ val edgeDefaultInt : interfaceEdge<Int> = object  : interfaceEdge<Int> {
     override val label: String? = null
     override fun toString() = weight.toString()
 }
+
