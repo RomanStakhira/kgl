@@ -23,7 +23,6 @@ fun MutableGraph.toGraphviz(
         if (it) "di" else ""
     } ?: ""
 
-
     // Start the string creation
     val sb = StringBuilder().apply {
         appendLine("${pref}graph \"${name}\" {")

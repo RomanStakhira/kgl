@@ -2,8 +2,6 @@ import kgl.*
 import kgl.utils.*
 import kotlin.test.*
 
-import kotlin.properties.Delegates
-
 
 class AlgorithmsTest {
     val puc811 = MutableGraph("puc811",false)
@@ -48,7 +46,7 @@ class AlgorithmsTest {
 
     }
     @Test
-    fun DijkstraTest(){
+    fun dijkstra(){
         w.apply {
             connect(1,2,Edge(7,))
             connect(2,4,Edge(15))
@@ -60,11 +58,13 @@ class AlgorithmsTest {
             connect(4,3,Edge(11))
             connect(6,3,Edge(2))
         }
+        /*
         val cm = mapOf<Any,Int>(1 to 1, 2 to 2, 3 to 3)
         w.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.sfdp)
         println("$w  ${w.weightsPositive}")
+         */
+        w.dijkstra(5)
 
-        w.dijkstra(1,5)
 
 
     }

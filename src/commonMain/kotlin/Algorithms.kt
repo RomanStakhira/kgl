@@ -1,5 +1,8 @@
 package kgl
 
+import kgl.utils.ANSI_BLUE
+import kgl.utils.ANSI_RED
+
 /**
  * A Dijkstra search  for a directed or undirected graph
  * @param [start]
@@ -7,14 +10,34 @@ package kgl
  * @return
  */
 fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
-    // vertex to Pair(lenght,path)
-    val l = mutableMapOf<Any?, Pair<Number, MutableList<Any?>>>(start to Pair(0, mutableListOf<Any?>(0)))    //1
+    if (start !in vertices) throw Exception("Start vertex [$start] not in Graph [${this.name}]")
+    // vertex to Pair(lenght, path)
+    val l = mutableMapOf<Any?, Pair<Number?, MutableList<Any?>?>>(start to Pair(0, mutableListOf<Any?>(0)))    //1
+    val done = mutableSetOf<Any>()
+    val queue = ArrayDeque<Any>()
+    queue.add(start)
+    val itrVert = vertices.keys.iterator()
+    var v = itrVert.next()
 
-this.rmVertices(1)
-    //val min = this.neighbors(start)?.forEach { println("${getEdge(start ,it) }") } // { getEdge(start,it) }
-val x = vertices[start]?.minOfOrNull { it.second?.weight!!.toDouble() }
-//forEach { println("${it.first} ${it.second?.weight}  ${it.second?.label}") }
-    println("${start}--${finish}   ${x}")
+    do {
+
+        while (queue.isNotEmpty()){
+            val curVert = queue.removeFirst()
+            //if (curVert == v) l[curVert] = Pair(0, null)
+            // process
+
+            done.add(curVert)
+            println("$ANSI_RED $curVert  $ANSI_BLUE  ${neighbors(curVert)}")
+
+        }
+        neighbors(v)?.let { queue.addAll(it)}
+            v = itrVert.next()
+        if (v !in done && v !in queue) {
+            queue.add(v)
+        }
+    }while (itrVert.hasNext())
+
+
 }
 
 /**
@@ -68,7 +91,7 @@ fun bfs(start: Any, finish: Any): Int {
  * @param [seed]  Start vertex
  * @return Map<Any?, Int>(vertex, color) or empty map if [maxColors] has been exceeded
  */
-fun MutableGraph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
+fun Graph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
                                  seed: Any? = null) : Map<Any, Int>{
     if (hasNoose) throw Exception("Graph has noose")
     val colorMap = mutableMapOf<Any, Int>()
@@ -93,7 +116,7 @@ fun MutableGraph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
     return colorMap.toMap()
 }
 
-val MutableGraph.chromaticNumber: Int
+val Graph.chromaticNumber: Int
     get(){
         return this.greedyColoring().values.maxOf{ it }+1
     }

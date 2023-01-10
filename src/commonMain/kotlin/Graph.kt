@@ -7,10 +7,9 @@ package kgl
  * @property [vertices] Main graph data storage
  * @return
  */
-interface Graph {
+interface InterfaceGraph {
     val vertices: MutableMap<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>
-
-    //operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
+    operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
     var name: String
     val directed: Boolean?
     val size: Int
@@ -31,7 +30,7 @@ interface Graph {
     fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet()  //?: setOf<Any>()
 }
 
-abstract class AbstractGraph : Graph {
+abstract class Graph : InterfaceGraph {
 
     override fun equals(other: Any?): Boolean {
         if (other !is Graph || vertices != other.vertices) return false
@@ -46,13 +45,13 @@ abstract class AbstractGraph : Graph {
             if (it) '>' else '-'
         } ?: ' '
         val sb = StringBuilder().apply {
-            appendLine("${name}  ($size Vertices, $edgesNumber Edges){")
+            appendLine("$name  ($size Vertices, $edgesNumber Edges){")
         }
         vertices.forEach { (key, value) ->
-            if (value.isEmpty()) sb.appendLine("${key}") // Lonely vertex
+            if (value.isEmpty()) sb.appendLine("$key") // Lonely vertex
             else value.forEach { s ->
                 sb.apply {
-                    append(" ${key} -$delim ${s.first}")
+                    append(" $key -$delim ${s.first}")
                     s.second?.let {
                         append(" [")
                         append(s.second!!.label?.let { "\"${it}\"" } ?: "")

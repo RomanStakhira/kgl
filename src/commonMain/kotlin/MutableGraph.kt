@@ -12,7 +12,7 @@ package kgl
 class MutableGraph(
     override var name: String = "",
     override val directed: Boolean? = true
-) : AbstractGraph() {
+) : Graph() {
 
     override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>()
 
@@ -26,7 +26,6 @@ class MutableGraph(
      * @param [v] Vertex object
      */
     private fun <T> addVertex(v: T) {
-        //vertices += v as Any to mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
         vertices[v as Any] = mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
     }
 
