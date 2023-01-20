@@ -62,11 +62,6 @@ class MutableGraph(
                 vertices[it]!!.removeAll(setToRemove)
             }
         }
-        /*
-        vertices.forEach { s ->
-            s.value.removeIf { p -> p.first == v }
-        }
-         */
     }
 
     operator fun <T> minus(v: T): MutableGraph {

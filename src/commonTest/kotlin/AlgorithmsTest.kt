@@ -65,8 +65,6 @@ class AlgorithmsTest {
          */
         w.dijkstra(5)
 
-
-
     }
 
     @Test

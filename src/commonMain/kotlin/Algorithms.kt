@@ -20,7 +20,6 @@ fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
     var v = itrVert.next()
 
     do {
-
         while (queue.isNotEmpty()){
             val curVert = queue.removeFirst()
             //if (curVert == v) l[curVert] = Pair(0, null)
@@ -28,7 +27,6 @@ fun  MutableGraph.dijkstra(start: Any, finish: Any? = null){
 
             done.add(curVert)
             println("$ANSI_RED $curVert  $ANSI_BLUE  ${neighbors(curVert)}")
-
         }
         neighbors(v)?.let { queue.addAll(it)}
             v = itrVert.next()
