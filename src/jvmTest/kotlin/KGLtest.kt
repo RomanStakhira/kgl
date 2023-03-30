@@ -101,7 +101,8 @@ class KGLtest {
         gA.connect(5, 5)
         assertFalse(gA.weightsPositive!!, "Weights Negative")
         assertTrue(gA.hasNoose, "Has cycle")
-        gA.toGraphviz().show("C:\\tmp")
+        //gA.toGraphviz().show("C:\\tmp")
+        //println("$gA")
 
     }
 

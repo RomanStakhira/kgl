@@ -86,10 +86,9 @@ class AlgorithmsTest {
         }
         val cm = puc43.greedyColoring(8,'1')
         println("$cm  \n chromaticNumber=${puc43.chromaticNumber} \n Noose =  ${puc43.hasNoose}")
-        puc43.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.fdp)
-        //assertEquals(4, puc43.chromaticNumber,"Wrongch Comatic Number!")
-
-
+        //puc43.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.fdp)
+        assertEquals(4, puc43.chromaticNumber,"Wrong Chromatic Number!")
+        println("${puc43.toGraphML(colorMap = cm)}")
     }
 
 }
