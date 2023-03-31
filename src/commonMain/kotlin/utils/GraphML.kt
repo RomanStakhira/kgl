@@ -56,46 +56,82 @@ abstract class TagWithText(name: String) : Tag(name) {
 }
 
 class GraphML : TagWithText("graphml") {
-    fun head(init: Head.() -> Unit) = initTag(Head(), init)
+    //fun head(init: Head.() -> Unit) = initTag(Head(), init)
 
-    fun graph(gname: String? = null, directed: Boolean = true, init: Graphml.() -> Unit) {
-        val b = initTag(Graphml(), init)
+    fun graph(id: String, edgedefault: String, init: GraphTag.() -> Unit) {
+        val g = initTag(GraphTag(), init)
+        g.id = id
+        g.edgedefault = edgedefault
 
     }
 }
-
+/*
 class Head : TagWithText("head") {
     fun title(init: Title.() -> Unit) = initTag(Title(), init)
 }
 
 class Title : TagWithText("title")
+ */
 
 abstract class BodyTag(name: String) : TagWithText(name) {
-    fun n(init: N.() -> Unit) = initTag(N(), init)
-    fun p(init: P.() -> Unit) = initTag(P(), init)
-    fun h1(init: H1.() -> Unit) = initTag(H1(), init)
-    fun a(href: String, init: A.() -> Unit) {
-        val a = initTag(A(), init)
-        a.href = href
+   fun node(id: String, init: N.() -> Unit) {
+       val a = initTag(N(), init)
+       a.id = id
+   }
+    fun edge(id: String, source: String, target: String, init: E.() -> Unit) {
+        val e = initTag(E(), init)
+        e.id = id
+        e.source = source
+        e.target = target
     }
+    fun h1(init: H1.() -> Unit) = initTag(H1(), init)
+
 }
 
-class Graphml : BodyTag("graph")
-class N : BodyTag("node")
-class P : BodyTag("p")
-class H1 : BodyTag("h1")
-
-class A : BodyTag("a") {
-    var href: String
-        get() = attributes["href"]!!
+class GraphTag : BodyTag("graph") {  //graph tag
+    var id: String
+        get() = attributes[id]!!
         set(value) {
-            attributes["href"] = value
+            attributes["id"] = value
+        }
+    var edgedefault: String
+        get() = attributes[edgedefault]!!
+        set(value) {
+            attributes["edgedefault"] = value
+        }
+}
+class N : BodyTag("node"){          //node tag
+    var id: String
+        get() = attributes[id]!!
+        set(value) {
+            attributes["id"] = value
+        }
+}
+class E : BodyTag("edge"){  //edge tag
+    var id: String
+        get() = attributes[id]!!
+        set(value) {
+            attributes["id"] = value
+        }
+    var source: String
+        get() = attributes[source]!!
+        set(value) {
+            attributes["source"] = value
+        }
+    var target: String
+        get() = attributes[target]!!
+        set(value) {
+            attributes["target"] = value
         }
 }
 
 
+class H1 : BodyTag("h1")
+
+
 /**
  * GraphML Builder
+ * @param [{}] lambda function
  */
 fun graphml(init: GraphML.() -> Unit): GraphML {
     val xml = GraphML()
@@ -103,43 +139,17 @@ fun graphml(init: GraphML.() -> Unit): GraphML {
     return xml
 }
 //-------------------------------------------------------------------------------
-const val preamble = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+const val preamble = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 fun MutableGraph.toGraphML(
     labeled: Boolean = true, weighted: Boolean = true,
-    concentrate: Boolean = true, colorMap: Map<Any, Int>? = null
+    colorMap: Map<Any, Int>? = null
 ): String {
     val result = graphml {
-//        head {
-//            title { +"Title" }
-//        }
-        graph("Name", false) {
-            n{ + "1"}
-            a(href = "http://kotlinlang.org") {
-                +"Kotlin"
-            }
-
-            /*
-            h1 { +"HTML encoding with Kotlin" }
-            p {
-                +"this format can be used as an"
-                +"alternative markup to HTML"
-
-
-                // mixed content
-                p {
-                    +"This is some"
-                    n { +"mixed" }
-                    +"text. For more see the"
-                    a(href = "http://kotlinlang.org") {
-                        +"Kotlin"
-                    }
-                    +"project"
-                }
-                p {
-                    +"some text"
-                }
-            }
-             */
+        graph("Name", "directed") {
+            node("iii"){ + "1"}
+            node("2"){ }
+            edge("8", "iii", "2"){}
+            node("3"){}
 
         }
 
