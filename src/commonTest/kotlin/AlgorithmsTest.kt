@@ -39,12 +39,7 @@ class AlgorithmsTest {
             addNeighbors(4,5,6,7)
         }
     }
-    @Test
-    fun dfsTest(){
-        puc811.dfs("x1","x3")
-        //println("${g.neighbors(2)}")
 
-    }
     @Test
     fun dijkstra(){
         w.apply {
@@ -63,7 +58,6 @@ class AlgorithmsTest {
         w.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.sfdp)
         println("$w  ${w.weightsPositive}")
          */
-        w.dijkstra(5)
 
     }
 
