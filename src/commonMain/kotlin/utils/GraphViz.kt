@@ -42,16 +42,16 @@ fun MutableGraph.toGraphviz(
                 appendLine("\"${v}\" [fillcolor = $color]")
             }
         } ?: vertices.keys.forEach {
-            val color = when (it::class.qualifiedName) {
-                "kotlin.Boolean" -> "violet"
-                "kotlin.Char" -> "yellow2"
-                "kotlin.String" -> "yellow"
-                "kotlin.Byte" -> "greenyellow"
-                "kotlin.Short" -> "green"
-                "kotlin.Int" -> "green2"
-                "kotlin.Long" -> "green4"
-                "kotlin.Float" -> "lightblue"
-                "kotlin.Double" -> "lightskyblue"
+            val color = when (it::class.simpleName) {
+                "Boolean" -> "violet"
+                "Char" -> "yellow2"
+                "String" -> "yellow"
+                "Byte" -> "greenyellow"
+                "Short" -> "green"
+                "Int" -> "green2"
+                "Long" -> "green4"
+                "Float" -> "lightblue"
+                "Double" -> "lightskyblue"
                 "kgraph.MutableGraph" -> "pink, shape = tab"
                 else -> "gray"
             }
