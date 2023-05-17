@@ -52,7 +52,7 @@ fun MutableGraph.toGraphviz(
                 "Long" -> "green4"
                 "Float" -> "lightblue"
                 "Double" -> "lightskyblue"
-                "kgraph.MutableGraph" -> "pink, shape = tab"
+                "MutableGraph" -> "pink, shape = tab"
                 else -> "gray"
             }
             appendLine("\"${it}\" [fillcolor = $color]")
