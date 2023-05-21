@@ -1,5 +1,5 @@
 package kgl.utils
-import kgl.MutableGraph
+import MutableGraph
 
 enum class LayoutEngines {
     dot, neato, twopi, circo, fdp, osage, patchwork, sfdp

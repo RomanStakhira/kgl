@@ -1,14 +1,12 @@
-package kgl
+import kgl.interfaceEdge
 
 
 /**
- * TODO
- *
  * @property [vertices] Main graph data storage
  * @return
  */
 interface InterfaceGraph {
-    val vertices: MutableMap<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>
+    val vertices: Map<Any, Set<Pair<Any, interfaceEdge<*>?>>>
     operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
     var name: String
     val directed: Boolean?
@@ -16,11 +14,12 @@ interface InterfaceGraph {
         get() = vertices.size
     val edgesNumber: Int
         get() {
-            var res = 0
+            var result = 0
             vertices.keys.forEach {
-                res += vertices[it]!!.size
+                result += vertices[it]!!.size
             }
-            return res
+            // directed?.let {if (!it)  result /=2 }
+            return result
         }
     /**
      * Neighbors of vertex
@@ -31,17 +30,13 @@ interface InterfaceGraph {
 }
 
 abstract class Graph : InterfaceGraph {
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Graph || vertices != other.vertices) return false
-        return true
-    }
+    override fun equals(other: Any?) = !(other !is Graph || vertices != other.vertices)
 
     /**
-     * @return Graph string
+     * @return  Human-readable Graph string
      */
     override fun toString(): String {
-        val delim = this.directed?.let {
+        val delimiter = this.directed?.let {
             if (it) '>' else '-'
         } ?: ' '
         val sb = StringBuilder().apply {
@@ -51,7 +46,7 @@ abstract class Graph : InterfaceGraph {
             if (value.isEmpty()) sb.appendLine("$key") // Lonely vertex
             else value.forEach { s ->
                 sb.apply {
-                    append(" $key -$delim ${s.first}")
+                    append(" $key -$delimiter ${s.first}")
                     s.second?.let {
                         append(" [")
                         append(s.second!!.label?.let { "\"${it}\"" } ?: "")
@@ -67,14 +62,7 @@ abstract class Graph : InterfaceGraph {
     }
 
     /**
-     * Clear a graph
-     */
-    inline fun clear() {
-        vertices.clear()
-    }
-
-    /**
-     * Are the vertex connected to itself ?
+     * Are any vertex connected to itself ?
      */
     val hasNoose: Boolean
         get() {
@@ -103,6 +91,10 @@ abstract class Graph : InterfaceGraph {
             }
             return allPositive
         }
+
+    operator fun <T> contains(v: T): Boolean {
+        return (v as Any) in vertices.keys
+    }
 
 }
 

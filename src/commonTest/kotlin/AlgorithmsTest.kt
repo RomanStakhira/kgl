@@ -4,13 +4,13 @@ import kotlin.test.*
 
 
 class AlgorithmsTest {
-    val puc811 = MutableGraph("puc811",false)
-    val puc812 = MutableGraph("puc812",true)
+    val puc811 = MutableGraph("puc811", false)
+    val puc812 = MutableGraph("puc812", true)
     val puc81 by lazy { puc811 + puc812 }
 
-    val w = MutableGraph("wiki",false)
+    val w = MutableGraph("wiki", false)
 
-    val crown = MutableGraph("crown",false)
+    val crown = MutableGraph("crown", false)
     @BeforeTest
     fun Init(){
         puc811.apply {
@@ -63,7 +63,7 @@ class AlgorithmsTest {
 
     @Test
     fun greedyColoring(){
-        val puc43 = MutableGraph("puc43_Gamma_3",false)
+        val puc43 = MutableGraph("puc43_Gamma_3", false)
         puc43.apply {
             addPath(1,2,3,4,5,6,7,1)
             addPath(1,3,6)

@@ -1,4 +1,4 @@
-package kgl
+import kgl.interfaceEdge
 
 
 /**
@@ -11,7 +11,7 @@ package kgl
 //@Serializable
 class MutableGraph(
     override var name: String = "",
-    override val directed: Boolean? = true
+    override var directed: Boolean? = true
 ) : Graph() {
 
     override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>()
@@ -20,22 +20,22 @@ class MutableGraph(
         MutableGraph(newName ?: "${name}_Copy", directed).also {
             it.vertices += vertices
         }
+    /**
+     * Clear a graph
+     */
+    inline fun clear() {
+        vertices.clear()
+    }
 
     /**
-     * Add Vertex
-     * @param [v] Vertex object
+     * Add a Vertex
+     * @param [v] Vertex any object
      */
     private fun <T> addVertex(v: T) {
         vertices[v as Any] = mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
     }
-
-    operator fun <T> plus(v: T): MutableGraph {
-        addVertex(v)
-        return this
-    }
-
     /**
-     * Add a number of Vertices
+     * Adds a number of Vertices
      * @param [verts] Vertex objects
      */
     fun <T> addVertices(vararg verts: T) {
@@ -43,7 +43,6 @@ class MutableGraph(
             addVertex(it)
         }
     }
-
     /**
      * Remove Vertex
      * @param [v] Vertex in Graph
@@ -63,18 +62,12 @@ class MutableGraph(
             }
         }
     }
-
-    operator fun <T> minus(v: T): MutableGraph {
-        rmVertex(v)
-        return this
-    }
-
     /**
      * Remove a number of Vertices
-     * @param verts Vertex objects
+     * @param v Vertex objects
      */
-    fun <T> rmVertices(vararg verts: T) {
-        verts.forEach {
+    fun <T> rmVertices(vararg v: T) {
+        v.forEach {
             rmVertex(it)
         }
     }
@@ -140,10 +133,10 @@ class MutableGraph(
     }
 
     /**
-     * Get Edge for pair of vertices
+     * Get Edge for a pair of vertices
      * @param [start] 1st vertex
      * @param [finish] 2nd vertex
-     * @return set of Edge objects (Empty set if dasn't connected)
+     * @return set of Edge objects (Empty set if vertices doesn't connected)
      */
     fun <T> getEdge(start: T, finish: T): Set<interfaceEdge<*>?> {
         //val ed = vertices[start as Any]?.filter { p-> p.first == to as Any }
@@ -173,7 +166,7 @@ class MutableGraph(
         }
     }
     /**
-     * Adds new neighboring peaks. Edge set null
+     * Adds new neighboring vertices and connect. Edge set null
      * @param [start] start
      * @param [finish] list of neighbors
      */
@@ -183,23 +176,83 @@ class MutableGraph(
         }
     }
     /**
+     * Adds a series of vertices and connects them to each other
+     * @param [start]
+     * @param [finish]
+     */
+    fun <T> addPath(start: T, vararg finish: T) {
+        var tmp = start
+        finish.forEach {
+            connect(tmp, it)
+            tmp = it
+        }
+    }
+//------------------ Operators ---------------------
+    /**
+     * @return Graph += Vertex
+     */
+    operator fun <T> plusAssign(v: T){
+        this.addVertex(v)
+    }
+    /**
+     * @return NewGraph = Graph + Vertex
+     */
+    operator fun <T> plus(v: T): MutableGraph {
+        val tmp = this.copy("plus")
+        tmp.addVertex(v)
+        return tmp
+    }
+    /**
+     * @return Graph -= Vertex
+     */
+    operator fun <T> minusAssign(v: T){
+        rmVertex(v)
+    }
+    /**
+     * @return NewGraph = Graph - Vertex
+     */
+    operator fun <T> minus(v: T): MutableGraph {
+        val tmp = this.copy("minus")
+        tmp.rmVertex(v)
+        return tmp
+    }
+
+    /**
+     * @return new directed property from this & other graphs (null if properties in both graphs are diferent)
+     *
+     * @param [other] Graph
+     */
+    private fun newDirected(other : MutableGraph) = this.directed?.let { t ->
+        other.directed?.let { o ->
+            if (t && o) {
+                true
+            } else if (!t && !o) {
+                false
+            } else null
+        }
+    }
+    operator fun plusAssign(other: MutableGraph){
+        directed = newDirected(other)
+        //putAll  don't work
+        //this.vertices.putAll(other.vertices)
+        vertices += (vertices.keys union other.vertices.keys).associateWith { v ->
+            val s = mutableSetOf<Pair<Any, interfaceEdge<*>?>>().apply {
+                addAll(vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
+                addAll(other.vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
+            }
+            s
+        }
+
+    }
+
+    /**
      * Create a new graph
-     * @param [other]
+     * @param [other] Graph
      * @return a graph containing all vertices and edges from both
      */
     operator fun plus(other: MutableGraph): MutableGraph {
-        val orient: Boolean? = this.directed?.let { t ->
-            other.directed?.let { o ->
-                if (t && o) {
-                    true
-                } else if (!t && !o) {
-                    false
-                } else null
-            }
-        }
-        val newName = "${name}${other.name}"
         //putAll  don't work
-        val tmp = MutableGraph(newName, orient)
+        val tmp = MutableGraph("${name}${other.name}", newDirected(other))
         tmp.vertices += (this.vertices.keys union other.vertices.keys).associateWith { v ->
             val s = mutableSetOf<Pair<Any, interfaceEdge<*>?>>().apply {
                 addAll(vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
@@ -215,6 +268,11 @@ class MutableGraph(
 
 
     //-----------------------------------------------------------------------------------------
+    operator fun minusAssign(other: MutableGraph){
+
+        // this
+    }
+
     private fun <T> objInBundles(o: T): Boolean {
         vertices.keys.forEach { v ->
             if (vertices[v]!!.find { p-> p.first == o } != null) return true
@@ -223,7 +281,7 @@ class MutableGraph(
     }
 
     operator fun minus(other: MutableGraph): MutableGraph {
-        val orient: Boolean? = this.directed?.let { t ->
+         this.directed?.let { t ->
             other.directed?.let { o ->
                 if (t && o) {
                     true
@@ -259,13 +317,7 @@ class MutableGraph(
 
 
 
-    fun <T> addPath(start: T, vararg finish: T) {
-        var tmp = start
-        finish.forEach {
-            connect(tmp, it)
-            tmp = it
-        }
-    }
+
 }
 
 

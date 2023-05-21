@@ -15,7 +15,7 @@ data class EdgeInteger ( override val weight: Int? = null,
                          override val label: String? = null) : interfaceEdge<Int>{}
 typealias Eint = EdgeInteger
 
-val edgeDefaultInt : interfaceEdge<Int> = object  : interfaceEdge<Int> {
+val edgeDefaultInt  = object  : interfaceEdge<Int> {
     override val weight: Int = 1
     override val label: String? = null
     override fun toString() = weight.toString()

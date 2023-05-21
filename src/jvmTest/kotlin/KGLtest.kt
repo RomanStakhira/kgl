@@ -19,7 +19,7 @@ class KGLtest {
     val c1 = test1(1, 2)
 
     @BeforeTest
-    fun Init() {
+    fun init() {
         gIn.addNeighbors("A", "a")
         gIn.connect("B", "a")
 
@@ -105,69 +105,6 @@ class KGLtest {
         //println("$gA")
 
     }
-
-    @Test
-    fun testArithmetic() {
-        println("\n\t-----------------------------------------------------------------")
-        val go1 = MutableGraph("go1", true)
-        go1.apply {
-            connect(1, 2, Eint(1, "go1"))
-            addNeighbors(2,2,'z', 3, 1)
-            connect(3, 1.1, edgeDefaultInt)
-            connect('A','A')
-            addVertices(9f)
-            setEdge(1,2, Eint(1, "go1"), Edbl(100.0,"setEdge"))
-            //toGraphviz().show()
-        }
-        val go2 = MutableGraph("go2", true)
-        go2.apply {
-            connect(1, 'A', Edbl(4.0))
-            addNeighbors(2,3,'x')
-            connect(3, 'B', Edbl(label = "label(3B)"))
-            setEdge(3,'B', Edbl(7.0, "3-B"))
-            //toGraphviz().show()
-        }
-        val gSum = go1 + go2
-        gSum.name = "SumGo"
-        //gSum.toGraphviz(concentrate = false).show()
-        println("${gSum.neighbors(2)}")
-//----------------------------------------------------------------------------
-        go2.apply {
-            clear()
-            addVertices(9f)
-            connect(2, 3)
-            connect(3, 2)
-            connect(3,70)
-            connect(1, 'A', Edbl(4.0))
-            connect(3, 'B', Edbl(7.0, "3-B"))
-            name = "NewGo2"
-            //toGraphviz().show()
-        }
-        val go3 = gSum - go2
-
-        go3.name="minus"
-        //go3.disconnectAll(3,'B')
-        //go3.toGraphviz().show()
-
-
-        go2.clear()
-        go2.connect(3, 1.1, edgeDefaultInt)
-        go2.connect(3, 'B', Edbl(label = "3-B"))
-        go2.connect(1, 'A', Edbl(4.0))
-        go2.connect(3, 'B', Edbl(4.0, "3-B"))
-        go2.connect(1, 2, Eint(1, "go1"))
-        go2.connect(2, 3)
-
-        // assertEquals(go1, go2, "Equals 1")
-        go2.addVertices("a")
-        go2.disconnect(1, 'A', Edbl(4.0))
-        go2.connect(1, 'A', Eint(4))
-        // assertNotEquals(go1, go2, "Equals 2")
-
-    }
-
-    //println("$go\n\t---------------------------------\n")
-    //val stringVertex = g.filter { (key, value) -> key.endsWith("1") && value > 10}
 
 
 }

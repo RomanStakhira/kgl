@@ -1,5 +1,3 @@
-package kgl
-
 /**
  * Greedy coloring
  *
@@ -8,7 +6,7 @@ package kgl
  * @return Map<Any?, Int>(vertex, color) or empty map if [maxColors] has been exceeded
  */
 fun Graph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
-                                 seed: Any? = null) : Map<Any, Int>{
+                          seed: Any? = null) : Map<Any, Int>{
     if (hasNoose) throw Exception("Graph has noose")
     val colorMap = mutableMapOf<Any, Int>()
     val queue = mutableSetOf<Any>()
