@@ -8,7 +8,7 @@
 # Log files
 *.log
 
-
+.idea\artifact
 
 # Ignore Gradle project-specific cache directory
 .gradle
