@@ -1,6 +1,3 @@
-import kgl.Edbl
-import kgl.Eint
-import kgl.edgeDefaultInt
 import kgl.utils.*
 import kotlin.test.*
 
@@ -12,11 +9,11 @@ class BaseTest {
         g.apply {
             addNeighbors(1,2,3,4)
             addPath(4,5,6)
-            connect(3,5,edgeDefaultInt)
+            connect(3,5, edgeDefaultInt)
             connect(2,4)
-            connect(3,5,Edbl(9.0,"test"))
-            connect(6,4,Eint(66,"label64"))
-            connect(5,"Hello 5",edgeDefaultInt)
+            connect(3,5, EDbl(9.0, "test"))
+            connect(6,4, EInt(66, "label64"))
+            connect(5,"Hello 5", edgeDefaultInt)
         }
     }
     @Test
@@ -30,19 +27,19 @@ class BaseTest {
         g1.connect(1,2)
         g1.connect(3,1)
         g1.connect(2,1)
-        g2.connect(3,9, Eint(1))
-        g1.connect(3,9, Eint(1))
-        g1.connect(9,3, Eint(1))
+        g2.connect(3,9, EInt(1))
+        g1.connect(3,9, EInt(1))
+        g1.connect(9,3, EInt(1))
         assertEquals(g1, g2,"Equals !\n")
 
         println("$ANSI_BLUE_BACKGROUND$ANSI_BLACK${g1.equals(g2)}")
 
-        g2.connect(1,4,Eint(5))
+        g2.connect(1,4, EInt(5))
         // some edges are null
         assertFalse(g2.weightsPositive,"Weights Positive !!!")
-        g2.setEdges(Eint(8,"blah"))
+        g2.setEdges(EInt(8, "blah"))
         g2.connect(4,2, edgeDefaultInt)
-        g2.connect(4,4,Edbl(100.0))
+        g2.connect(4,4, EDbl(100.0))
         assertTrue(g2.weightsPositive,"Weights Positive !!!")
         assertTrue(g2.hasNoose)
         g2-=4
@@ -69,8 +66,8 @@ class BaseTest {
         val gAdd = MutableGraph("Add",true)
         gAdd.apply {
             connect(5,'a', edgeDefaultInt)
-            connect('b','a',Edbl(2.1,"ba"))
-            connect(2,9.9,Edbl(9.9,"Double"))
+            connect('b','a', EDbl(2.1, "ba"))
+            connect(2,9.9, EDbl(9.9, "Double"))
         }
         val gResult2 = g + gAdd
         assertTrue(9.9 in gResult2)

@@ -1,6 +1,3 @@
-import kgl.interfaceEdge
-
-
 /**
  * Graph with Edge (weight, label)
  * @property [vertices] Main graph data storage
@@ -14,7 +11,7 @@ class MutableGraph(
     override var directed: Boolean? = true
 ) : Graph() {
 
-    override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, interfaceEdge<*>?>>>()
+    override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, InterfaceEdge<*>?>>>()
 
     fun copy(newName: String? = null) =
         MutableGraph(newName ?: "${name}_Copy", directed).also {
@@ -31,14 +28,14 @@ class MutableGraph(
      * Add a Vertex
      * @param [v] Vertex any object
      */
-    private fun <T> addVertex(v: T) {
-        vertices[v as Any] = mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
+    private fun <E> addVertex(v: E) {
+        vertices[v as Any] = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>()
     }
     /**
      * Adds a number of Vertices
      * @param [verts] Vertex objects
      */
-    fun <T> addVertices(vararg verts: T) {
+    fun <E> addVertices(vararg verts: E) {
         verts.forEach {
             addVertex(it)
         }
@@ -47,13 +44,13 @@ class MutableGraph(
      * Remove Vertex
      * @param [v] Vertex in Graph
      */
-    private fun <T> rmVertex(v: T) {
+    private fun <E> rmVertex(v: E) {
         vertices -= v as Any
         //Remove from all places
         val itrVert = vertices.keys.iterator()
         itrVert.forEach {
             // what needs to be removed from the links
-            val setToRemove = mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
+            val setToRemove = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>()
             vertices[it]?.forEach { p ->
                 if (p.first == v) setToRemove.add(p)
             }
@@ -66,7 +63,7 @@ class MutableGraph(
      * Remove a number of Vertices
      * @param v Vertex objects
      */
-    fun <T> rmVertices(vararg v: T) {
+    fun <E> rmVertices(vararg v: E) {
         v.forEach {
             rmVertex(it)
         }
@@ -78,7 +75,7 @@ class MutableGraph(
      * @param [finish] 2nd vertex
      * @param [edge] Edge object, default null
      */
-    fun <T> connect(start: T, finish: T, edge: interfaceEdge<*>? = null) {
+    fun <E> connect(start: E, finish: E, edge: InterfaceEdge<*>? = null) {
         vertices[start as Any] ?: addVertex(start)
         vertices[finish as Any] ?: addVertex(finish)
         vertices[start]!!.add((finish as Any) to edge)
@@ -93,7 +90,7 @@ class MutableGraph(
      * @param [finish] 2nd vertex
      * @param [edge] Edge object, default null
      */
-    fun <T> disconnect(start: T, finish: T, edge: interfaceEdge<*>? = null) {
+    fun <E> disconnect(start: E, finish: E, edge: InterfaceEdge<*>? = null) {
         vertices[start as Any]?.remove(vertices[start]!!.find { p -> p.first == finish && p.second == edge })
         if (this.directed == false) {
             vertices[finish as Any]?.remove(vertices[finish]!!.find { p -> p.first == start && p.second == edge })
@@ -105,7 +102,7 @@ class MutableGraph(
      * @param [start] 1st vertex
      * @param [finish] 2nd vertex
      */
-    fun <T> disconnectAll(start: T, finish: T) {
+    fun <E> disconnectAll(start: E, finish: E) {
         val r = vertices[start as Any]?.remove(vertices[start as Any]!!.find { p -> p.first == finish })
         if (this.directed == false) {
             vertices[finish as Any]?.remove(vertices[finish as Any]!!.find { p -> p.first == start })
@@ -121,7 +118,7 @@ class MutableGraph(
      * @param [newEdge] new edge
      * @return true if edge was set
      */
-    fun <T> setEdge(start: T, finish: T, edge: interfaceEdge<*>? = null, newEdge: interfaceEdge<*>? = null): Boolean {
+    fun <E> setEdge(start: E, finish: E, edge: InterfaceEdge<*>? = null, newEdge: InterfaceEdge<*>? = null): Boolean {
         if (start as Any !in vertices.keys || finish as Any !in vertices.keys) return false
         vertices[start]!!.remove(finish as Any to edge)
         vertices[start]!!.add(finish as Any to newEdge)
@@ -138,9 +135,9 @@ class MutableGraph(
      * @param [finish] 2nd vertex
      * @return set of Edge objects (Empty set if vertices doesn't connected)
      */
-    fun <T> getEdge(start: T, finish: T): Set<interfaceEdge<*>?> {
+    fun <E> getEdge(start: E, finish: E): Set<InterfaceEdge<*>?> {
         //val ed = vertices[start as Any]?.filter { p-> p.first == to as Any }
-        val e = mutableSetOf<interfaceEdge<*>?>()
+        val e = mutableSetOf<InterfaceEdge<*>?>()
         vertices[start as Any]?.forEach { p ->
             if (p.first == finish as Any) e += p.second
         }
@@ -151,7 +148,7 @@ class MutableGraph(
      * Set Uniform Edges for all vertices in current Graph
      * @param [edge] Edge object
      */
-    fun setEdges(edge: interfaceEdge<*>? = null) {
+    fun setEdges(edge: InterfaceEdge<*>? = null) {
         val itrVert = vertices.keys.iterator()
         itrVert.forEach { v ->
             val mlNeighbors = vertices[v]!!.toMutableList()
@@ -170,7 +167,7 @@ class MutableGraph(
      * @param [start] start
      * @param [finish] list of neighbors
      */
-    fun <T> addNeighbors(start: T, vararg finish : T) {
+    fun <E> addNeighbors(start: E, vararg finish : E) {
         finish.forEach {
             connect(start, it)
         }
@@ -180,7 +177,7 @@ class MutableGraph(
      * @param [start]
      * @param [finish]
      */
-    fun <T> addPath(start: T, vararg finish: T) {
+    fun <E> addPath(start: E, vararg finish: E) {
         var tmp = start
         finish.forEach {
             connect(tmp, it)
@@ -191,13 +188,13 @@ class MutableGraph(
     /**
      * @return Graph += Vertex
      */
-    operator fun <T> plusAssign(v: T){
+    operator fun <E> plusAssign(v: E){
         this.addVertex(v)
     }
     /**
      * @return NewGraph = Graph + Vertex
      */
-    operator fun <T> plus(v: T): MutableGraph {
+    operator fun <E> plus(v: E): MutableGraph {
         val tmp = this.copy("plus")
         tmp.addVertex(v)
         return tmp
@@ -205,13 +202,13 @@ class MutableGraph(
     /**
      * @return Graph -= Vertex
      */
-    operator fun <T> minusAssign(v: T){
+    operator fun <E> minusAssign(v: E){
         rmVertex(v)
     }
     /**
      * @return NewGraph = Graph - Vertex
      */
-    operator fun <T> minus(v: T): MutableGraph {
+    operator fun <E> minus(v: E): MutableGraph {
         val tmp = this.copy("minus")
         tmp.rmVertex(v)
         return tmp
@@ -236,9 +233,9 @@ class MutableGraph(
         //putAll  don't work
         //this.vertices.putAll(other.vertices)
         vertices += (vertices.keys union other.vertices.keys).associateWith { v ->
-            val s = mutableSetOf<Pair<Any, interfaceEdge<*>?>>().apply {
-                addAll(vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
-                addAll(other.vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
+            val s = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>().apply {
+                addAll(vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, InterfaceEdge<*>?>>())
+                addAll(other.vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, InterfaceEdge<*>?>>())
             }
             s
         }
@@ -254,9 +251,9 @@ class MutableGraph(
         //putAll  don't work
         val tmp = MutableGraph("${name}${other.name}", newDirected(other))
         tmp.vertices += (this.vertices.keys union other.vertices.keys).associateWith { v ->
-            val s = mutableSetOf<Pair<Any, interfaceEdge<*>?>>().apply {
-                addAll(vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
-                addAll(other.vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, interfaceEdge<*>?>>())
+            val s = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>().apply {
+                addAll(vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, InterfaceEdge<*>?>>())
+                addAll(other.vertices[v as Any]?.toMutableSet() ?: mutableSetOf<Pair<Any, InterfaceEdge<*>?>>())
             }
             s
         }
@@ -296,7 +293,7 @@ class MutableGraph(
         val itrVert = tmp.vertices.keys.iterator()
         itrVert.forEach { tmpVert ->
             // what needs to be removed from the links
-            val setToRemove = mutableSetOf<Pair<Any, interfaceEdge<*>?>>()
+            val setToRemove = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>()
             if (tmpVert in other.vertices.keys) {
                 tmp.vertices[tmpVert]?.forEach { p ->
                     if (other.vertices[tmpVert]?.contains(p) == true) setToRemove.add(p)

@@ -1,4 +1,3 @@
-import kgl.*
 import kgl.utils.*
 import kotlin.test.*
 
@@ -43,15 +42,15 @@ class AlgorithmsTest {
     @Test
     fun dijkstra(){
         w.apply {
-            connect(1,2,Edge(7,))
-            connect(2,4,Edge(15))
-            connect(4,5,Edge(6))
-            connect(5,6,Edge(9))
-            connect(6,1,Edge(14))
-            connect(1,3,Edge(9))
-            connect(2,3,Edge(10))
-            connect(4,3,Edge(11))
-            connect(6,3,Edge(2))
+            connect(1,2, Edge(7,))
+            connect(2,4, Edge(15))
+            connect(4,5, Edge(6))
+            connect(5,6, Edge(9))
+            connect(6,1, Edge(14))
+            connect(1,3, Edge(9))
+            connect(2,3, Edge(10))
+            connect(4,3, Edge(11))
+            connect(6,3, Edge(2))
         }
         /*
         val cm = mapOf<Any,Int>(1 to 1, 2 to 2, 3 to 3)

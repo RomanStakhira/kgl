@@ -1,14 +1,11 @@
-import kgl.interfaceEdge
-
-
 /**
  * @property [vertices] Main graph data storage
  * @return
  */
 interface InterfaceGraph {
-    val vertices: Map<Any, Set<Pair<Any, interfaceEdge<*>?>>>
+    val vertices: Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
     operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
-    var name: String
+    val name: String
     val directed: Boolean?
     val size: Int
         get() = vertices.size
@@ -30,8 +27,8 @@ interface InterfaceGraph {
 }
 
 abstract class Graph : InterfaceGraph {
-    override fun equals(other: Any?) = !(other !is Graph || vertices != other.vertices)
-
+    override fun equals(other: Any?) = (other is Graph && vertices == other.vertices)
+    override fun hashCode() = this::class.hashCode()
     /**
      * @return  Human-readable Graph string
      */
@@ -95,6 +92,5 @@ abstract class Graph : InterfaceGraph {
     operator fun <T> contains(v: T): Boolean {
         return (v as Any) in vertices.keys
     }
-
 }
 
