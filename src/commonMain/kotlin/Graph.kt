@@ -3,10 +3,16 @@
  * @return
  */
 interface InterfaceGraph {
-    val vertices: Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
-    operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
     val name: String
     val directed: Boolean?
+    val vertices: Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
+    operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
+    /**
+     * Neighbors of vertex
+     * @param [v] vertex
+     * @return Set of neighbors of vertex or null if No such vertex
+     */
+    fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet()
     val size: Int
         get() = vertices.size
     val edgesNumber: Int
@@ -18,12 +24,6 @@ interface InterfaceGraph {
             // directed?.let {if (!it)  result /=2 }
             return result
         }
-    /**
-     * Neighbors of vertex
-     * @param [v] vertex
-     * @return Set of neighbors of vertex or null if No such vertex
-     */
-    fun <T> neighbors(v: T) = vertices[v as Any]?.map { it.first }?.toSet()  //?: setOf<Any>()
 }
 
 abstract class Graph : InterfaceGraph {

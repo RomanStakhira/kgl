@@ -1,10 +1,16 @@
-# kgl
-Multiplatform Kotlin Graph Library
+# KGL
+Multiplatform Kotlin Graph Library.
+
+KGL provides a simply to use platform independent graph library.
+
+## Usage
+KGL is made by main interface [Graph](src/commonMain/kotlin/Graph.kt) and its 
+implementation [MutableGraph.kt](src/commonMain/kotlin/MutableGraph.kt).
 
 
 ### Operators:
-* Boolean = Vertex in Graph
-* Boolean = Vertex !in Graph
+* Vertex in Graph
+* Vertex !in Graph
 * Graph += Vertex
 * Graph_1 += Graph_2 (if yuo need graph in vertex use addVertices)
 * NewGraph = Graph + Vertex
@@ -12,10 +18,11 @@ Multiplatform Kotlin Graph Library
 * Graph -= Vertex
 * NewGraph = Graph - Vertex
 
-### TODO
+### Goals
 - [x] Operators
 - [] Serialization  
 - [] Algorithms
+- [] SubGraph
 - [] GraphML [Type-safe builders](https://kotlinlang.org/docs/type-safe-builders.html)
 - [] Graph DataBase
 

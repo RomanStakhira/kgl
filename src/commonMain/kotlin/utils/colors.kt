@@ -1,4 +1,4 @@
-package kgl.utils
+package utils
 
 val colors: List<String> = listOf( "white","red","green", "blue","aqua","yellowgreen","plum",
     "pink","indigo","antiquewhite","lime",  "aquamarine", "azure", "beige", "bisque",

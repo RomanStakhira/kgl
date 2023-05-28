@@ -1,4 +1,4 @@
-package kgl.utils
+package utils
 import MutableGraph
 
 enum class LayoutEngines {
@@ -12,20 +12,18 @@ enum class LayoutEngines {
  * https://edotor.net/
  * @return String that can be passed to Graphviz
  */
-fun MutableGraph.toGraphviz(
+fun MutableGraph.toGraphViz(
     labeled: Boolean = true, weighted: Boolean = true,
     concentrate: Boolean = true, colorMap: Map<Any, Int>? = null
 ): String {
-    val delim = this.directed?.let {
+    val delimiter = this.directed?.let {
         if (it) '>' else '-'
     } ?: '-'
-    val pref = this.directed?.let {
-        if (it) "di" else ""
-    } ?: ""
 
     // Start the string creation
     val sb = StringBuilder().apply {
-        appendLine("${pref}graph \"${name}\" {")
+        append(directed?.let {if (it) "di" else "" } ?: "")
+        appendLine("graph \"${name}\" {")
         appendLine("concentrate=$concentrate")
         if (labeled) {
             appendLine("label = \"$size Vertices, $edgesNumber Edges\"")
@@ -59,7 +57,7 @@ fun MutableGraph.toGraphviz(
         }
         vertices.forEach { (key, value) ->
             value.forEach { s ->
-                append(" \"${key}\" -$delim \"${s.first}\"")
+                append(" \"${key}\" -$delimiter \"${s.first}\"")
                 s.second?.let {
                     append(" [")
                     if (labeled) {

@@ -1,15 +1,15 @@
-package kgl.utils
+package utils
 
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 actual fun String.show( workingDir: String, engine: LayoutEngines): Unit = let { s ->
-    val name = s.split("\"".toRegex())[1]
+    val name = s.split("\"".toRegex())[1].replace(" ","")
     File(workingDir).resolve(File("${name}.gv")).bufferedWriter().use { out ->
         out.write(s)
     }
     File(workingDir).resolve(File("${name}.cmd")).bufferedWriter().use { out ->
-        out.write("${engine} -Tpng ${name}.gv > ${name}.png\n")
+        out.write("$engine -Tpng ${name}.gv > ${name}.png\n")
         out.write("start  ${name}.png\n")
     }
     "cmd /c ${name}.cmd".runCommand(File(workingDir))

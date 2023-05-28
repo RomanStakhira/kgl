@@ -1,5 +1,7 @@
 import kotlin.test.*
-import kgl.utils.*
+import utils.LayoutEngines
+import utils.show
+import utils.toGraphViz
 
 
 class KGLtest {
@@ -43,9 +45,9 @@ class KGLtest {
         val goc = go.copy()
 
         goc.setEdges(edgeDefaultInt)
-        go.toGraphviz().show("C:\\tmp")
-        goc.toGraphviz().show("C:\\tmp",engine = LayoutEngines.twopi)
-
+        go.toGraphViz().show("C:\\tmp")
+        goc.toGraphViz().show("C:\\tmp",engine = LayoutEngines.twopi)
+        gIn.toGraphViz().show("C:\\tmp")
     }
 
     @Test
@@ -78,13 +80,13 @@ class KGLtest {
         go.connect("B", "A", EInt(5))
         go.connect("A", "3", EInt(5))
         var edgeTest = setOf(ed, ei1, ei2, null)
-        val edgeRes = go.getEdge("A", "B")
+        val edgeRes = go.getEdges("A", "B")
         assertEquals(edgeTest, edgeRes, "Incorrect Edge test 1 !")
 
         // Disconnect
         go.disconnect("A", "B", ed)
         go.disconnect("A", "B", ei1)
-        assertEquals(edgeTest.minus(ed).minus(ei1), go.getEdge("A", "B"), "Incorrect Edge test 2 !")
+        assertEquals(edgeTest.minus(ed).minus(ei1), go.getEdges("A", "B"), "Incorrect Edge test 2 !")
     }
 
     @Test
