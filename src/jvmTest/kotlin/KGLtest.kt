@@ -42,7 +42,7 @@ class KGLtest {
         val classUnderTest = MutableGraph()
         assertNotNull(classUnderTest)
         go.connect('z', "B", EInt(22, "char"))
-        val goc = go.copy()
+        val goc = go.clone()
 
         goc.setEdges(edgeDefaultInt)
         go.toGraphViz().show("C:\\tmp")

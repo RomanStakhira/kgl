@@ -13,9 +13,18 @@ class MutableGraph(
 
     override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, InterfaceEdge<*>?>>>()
 
-    fun copy(newName: String? = null) =
-        MutableGraph(newName ?: "${name}_Copy", directed).also {
-            it.vertices.putAll(this.vertices)
+    /**
+     * Create a clone for Graph  with same content & new name
+     * @param  [newName] clone name
+     */
+    fun clone(newName: String? = null) =
+        MutableGraph(newName ?: "${name}_Clone", this.directed).also {
+            this.vertices.keys.forEach {key->
+                it.addVertex(key)
+                this.vertices[key]?.forEach {pair ->
+                    it.connect(key, pair.first, pair.second)
+                }
+            }
         }
     /**
      * Clear a graph
@@ -189,7 +198,7 @@ class MutableGraph(
      * @return NewGraph = Graph + Vertex
      */
     operator fun <E> plus(v: E): MutableGraph {
-        val tmp = this.copy("")
+        val tmp = this.clone("")
         tmp.addVertex(v)
         return tmp
     }
@@ -203,11 +212,11 @@ class MutableGraph(
      * @return NewGraph = Graph - Vertex
      */
     operator fun <E> minus(v: E): MutableGraph {
-        val tmp = this.copy("")
+        val tmp = this.clone("")
         tmp.rmVertex(v)
         return tmp
     }
-
+//
     /**
      * @return new directed property from this & other graphs (null if properties in both graphs are different)
      * @param [other] Graph
@@ -276,7 +285,7 @@ class MutableGraph(
             }
         }
         val newName: String = name.replace(other.name, "")
-        val tmp = this.copy(newName)
+        val tmp = this.clone(newName)
         val vertToRemove = mutableSetOf<Any>()
         val itrVert = tmp.vertices.keys.iterator()
         itrVert.forEach { tmpVert ->

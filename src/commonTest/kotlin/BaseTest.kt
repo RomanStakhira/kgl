@@ -1,16 +1,36 @@
-import utils.ANSI_BLACK
-import utils.ANSI_BLUE_BACKGROUND
 import utils.show
 import utils.toGraphViz
 import kotlin.test.*
-
+val directionList = listOf(true,false,null)
 class BaseTest {
     @BeforeTest
     fun init(){
     }
+
+    @Test
+    fun testCopy(){
+       // directionList.forEach{
+            val g = MutableGraph("src",false)
+            g.apply {
+                g.connect(1,2)
+                g.connect(2,3)
+                g.connect(2,3,EDbl(9.0,"239"))
+                g.connect(3,1)
+                g.addVertices("S")
+                toGraphViz().show("C:\\tmp")
+           }
+        val gc = g.clone("copy")
+       // assertSame(g.vertices, gc.vertices, "Same vertices !")
+        g.disconnect(2,3)
+        g.rmVertices("S")
+        gc.toGraphViz().show("C:\\tmp")
+        assertNotEquals(g,gc)
+       // }
+
+    }
     @Test
     fun testEquals(){
-        listOf(true,false,null).forEach {
+        directionList.forEach {
             val g1 = MutableGraph("g1",it)
             val g2 = MutableGraph("g2", false)
             g1.addVertices(3, 2, 1)
@@ -25,7 +45,7 @@ class BaseTest {
             g1.connect(9, 3, EInt(1))
             assertEquals(g1, g2, "Equals !\n")
 
-            println("$ANSI_BLUE_BACKGROUND$ANSI_BLACK${g1 == g2}")
+            //println("$ANSI_BLUE_BACKGROUND$ANSI_BLACK${g1 == g2}")
 
             g2.connect(1, 4, EInt(5))
             // some edges are null
@@ -48,7 +68,7 @@ class BaseTest {
                 connect(1,2,EInt(1,"int"))
                 connect(1,2,EDbl(10.0,"double"))
                 connect(1,2,Edge<Short>(8))
-                copy("$d").toGraphViz().show("C:\\tmp")
+                clone("$d").toGraphViz().show("C:\\tmp")
             }
         }
         g.disconnect(1,2,EDbl(10.0,"double"))
@@ -78,8 +98,7 @@ class BaseTest {
             g-=77
             assertTrue(1 !in g)
             assertTrue(77 !in g)
-            //copy ??????????????????????????????????????????????????????????
-            val gg = g.copy()
+            val gg = g.clone()
             g.disconnect(3,5, edgeDefaultInt)
             gg-='C'
             g.toGraphViz().show("C:\\tmp")
