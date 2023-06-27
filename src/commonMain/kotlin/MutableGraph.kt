@@ -20,7 +20,7 @@ class MutableGraph(
     fun clone(newName: String? = null) =
         MutableGraph(newName ?: "${name}_Clone", this.directed).also {
             this.vertices.keys.forEach {key->
-                it.addVertex(key)
+                it.addVertex(key)       //lonely vertex
                 this.vertices[key]?.forEach {pair ->
                     it.connect(key, pair.first, pair.second)
                 }
@@ -106,9 +106,9 @@ class MutableGraph(
      * @param [finish] 2nd vertex
      */
     fun <E> disconnectAll(start: E, finish: E) {
-        val r = vertices[start as Any]?.remove(vertices[start as Any]!!.find { p -> p.first == finish })
+        val r = vertices[start as Any]?.remove(vertices[start]!!.find { p -> p.first == finish })
         if (this.directed == false) {
-            vertices[finish as Any]?.remove(vertices[finish as Any]!!.find { p -> p.first == start })
+            vertices[finish as Any]?.remove(vertices[finish]!!.find { p -> p.first == start })
         }
         if (r == true) disconnectAll(start, finish)
     }
@@ -236,7 +236,7 @@ class MutableGraph(
                 }
                 s
             }
-        } else throw IllegalArgumentException("Both Graphs must have a same directed property." +
+        } else throw IllegalArgumentException("Both Graphs must have a same directed property. " +
                 "Instead use g = g1 + g2")
     }
 
@@ -256,8 +256,6 @@ class MutableGraph(
         }
     }
 
-
-    //-----------------------------------------------------------------------------------------
     private fun <T> objInBundles(o: T): Boolean {
         vertices.keys.forEach { v ->
             if (vertices[v]!!.find { p-> p.first == o } != null) return true
@@ -267,53 +265,60 @@ class MutableGraph(
 
     operator fun minusAssign(other: MutableGraph){
         if (this.directed == other.directed) {
-            val toProcess = (this.vertices.keys intersect  other.vertices.keys)
-           // this.vertices.keys.associateBy
-
-        } else throw IllegalArgumentException("Both Graphs must have a same directed property." +
+            val vertToRemove = mutableSetOf<Any>()
+            val toProcessing = this.vertices.keys intersect  other.vertices.keys
+            toProcessing.forEach { key ->
+                // what needs to be removed from the links
+                val setToRemove = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>()
+                other.vertices[key]?.forEach { p ->
+                    if (this.vertices[key]?.contains(p) == true) setToRemove.add(p)
+                }
+                if (setToRemove.isNotEmpty()) {
+                    this.vertices[key]!!.removeAll(setToRemove)
+                }
+            }
+            toProcessing.forEach { key ->
+                //remove lonely vertex
+                //necessary to check the presence of the vertex in the bundles
+                if (this.vertices[key]!!.isEmpty() && !this.objInBundles(key)) {
+                    vertToRemove.add(key)
+                }
+            }
+            this.vertices.keys.removeAll(vertToRemove)
+        } else throw IllegalArgumentException("Both Graphs must have a same directed property. " +
                 "Instead use g = g1 - g2")
     }
 
-
-
-    operator fun minus(other: MutableGraph): MutableGraph {
-         this.directed?.let { t ->
-            other.directed?.let { o ->
-                if (t && o) {
-                    true
-                } else if (!t && !o) {
-                    false
-                } else null
+    operator fun minus(other: MutableGraph)
+    = MutableGraph("${name}-${other.name}", newDirected(other)).also {
+        this.vertices.keys.forEach {key->
+            it.addVertex(key)
+            this.vertices[key]?.forEach {pair ->
+                it.connect(key, pair.first, pair.second)
             }
         }
-        val newName: String = name.replace(other.name, "")
-        val tmp = this.clone(newName)
         val vertToRemove = mutableSetOf<Any>()
-        val itrVert = tmp.vertices.keys.iterator()
-        itrVert.forEach { tmpVert ->
+        val toProcessing = it.vertices.keys intersect  other.vertices.keys
+
+        toProcessing.forEach { key ->
             // what needs to be removed from the links
             val setToRemove = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>()
-            if (tmpVert in other.vertices.keys) {
-                tmp.vertices[tmpVert]?.forEach { p ->
-                    if (other.vertices[tmpVert]?.contains(p) == true) setToRemove.add(p)
-                }
-                if (setToRemove.isNotEmpty()) {
-                    tmp.vertices[tmpVert]!!.removeAll(setToRemove)
-                }
-                //remove lonely vertex
-                //necessary to check the presence of the vertex in the bundles
-                if (tmp.vertices[tmpVert]!!.isEmpty() && !tmp.objInBundles(tmpVert)) {
-                    vertToRemove.add(tmpVert)
-                }
+            other.vertices[key]?.forEach { p ->
+                if (it.vertices[key]?.contains(p) == true) setToRemove.add(p)
+            }
+            if (setToRemove.isNotEmpty()) {
+                it.vertices[key]!!.removeAll(setToRemove)
             }
         }
-        tmp.vertices.keys.removeAll(vertToRemove)
-        return tmp
+        toProcessing.forEach { key ->
+            //remove lonely vertex
+            //necessary to check the presence of the vertex in the bundles
+            if (it.vertices[key]!!.isEmpty() && !it.objInBundles(key)) {
+                vertToRemove.add(key)
+            }
+        }
+        it.vertices.keys.removeAll(vertToRemove)
     }
-
-
-
-
 }
 
 

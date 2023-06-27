@@ -1,14 +1,10 @@
 import utils.show
 import utils.toGraphViz
 import kotlin.test.*
-val directionList = listOf(true/*,false,null*/)
+val directionList = listOf(true,false,null)
 class BaseTest {
-    @BeforeTest
-    fun init(){
-    }
-
     @Test
-    fun testCopy(){
+    fun testClone(){
        // directionList.forEach{
             val g = MutableGraph("src",false)
             g.apply {
@@ -45,8 +41,6 @@ class BaseTest {
             g1.connect(9, 3, EInt(1))
             assertEquals(g1, g2, "Equals !\n")
 
-            //println("$ANSI_BLUE_BACKGROUND$ANSI_BLACK${g1 == g2}")
-
             g2.connect(1, 4, EInt(5))
             // some edges are null
             assertFalse(g2.weightsPositive, "Weights Positive !!!")
@@ -55,7 +49,7 @@ class BaseTest {
             g2.connect(4, 4, EDbl(100.0))
             assertTrue(g2.weightsPositive, "Weights Positive !!!")
             assertTrue(g2.hasNoose)
-            g2 -= 4
+            g2.rmVertices(4)
             assertFalse(g2.hasNoose)
         }
     }
@@ -68,7 +62,7 @@ class BaseTest {
                 connect(1,2,EInt(1,"int"))
                 connect(1,2,EDbl(10.0,"double"))
                 connect(1,2,Edge<Short>(8))
-                clone("$d").toGraphViz().show("C:\\tmp")
+                //clone("$d").toGraphViz().show("C:\\tmp")
             }
         }
         g.disconnect(1,2,EDbl(10.0,"double"))
@@ -92,19 +86,63 @@ class BaseTest {
                     connect(1, 2)
                     connect(1, 2, EDbl(2.0, "g"))
                 }
-                val g3 = g1 + g2
-                val g4 = g2 + g1
-                assertEquals(g3, g4)
-                g4.connect(1, c, edgeDefaultInt)
-                assertNotEquals(g3, g4)
-                assertContains(g4.getEdges(1, c),edgeDefaultInt)
+
+                val g3 = g1 + g2 -c
+                if ( d1 == d2){
+                    g1+=g2
+                    g1-=c
+                    assertEquals(g3, g1,"g1\t$d1 $d2")
+                }else{
+                    val g4 = g2 + g1
+                    val g5 = g4 - c
+                    assertEquals(g3, g5, "g4\t$d1 $d2")
+                    assertFails {
+                        g2-=g1
+                        g2+=g1
+                    }
+                }
                 g3-=2
                 assertTrue(2 !in g3)
 
-                g4.connect("Hello","Hello")
-                g4+=0.9
-                g4.name += "$d1$d2"
-                g4.toGraphViz().show("C:\\tmp")
+                g1.apply {
+                    connect(4,1,EInt(10,"Int"))
+                    connect(1,2,EDbl(99.0))
+                    connect(1, c, edgeDefaultInt)
+                    connect("Hello", "Hello")
+                    connect(2,3)
+                    connect(1,4,EInt(10,"Int"))
+                }
+                g1 += 0.9
+                assertContains(g1.getEdges(1, c), edgeDefaultInt)
+
+                g2.apply {
+                    clear()
+                    connect(1,4,EInt(10,"Int"))
+                    connect(1,2,EDbl(99.0))
+                    connect(1,c,edgeDefaultInt)
+                    addVertices(0.9,"Hello")
+                    connect(4,1,EInt(10,"Int"))
+                    connect(1,10000)
+                }
+
+                val g11 = g1 - g2
+                if (d1 == d2) {
+                    g1-=g2
+                    assertTrue("Hello" in g1)
+                    g1.apply {
+                        name = "1$d1$d2"
+                        toGraphViz().show("C:\\tmp")
+                    }
+                } else{
+
+                   // assertTrue("Hello" in g11)
+//                    g11.apply {
+//                        name = "11$d1$d2"
+//                        toGraphViz().show("C:\\tmp")
+//                    }
+                }
+
+
             }
         }
 

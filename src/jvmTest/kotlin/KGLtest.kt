@@ -8,16 +8,16 @@ class KGLtest {
     val go = MutableGraph("testOriented")
     val gIn = MutableGraph("Inner Graph", directed = false)
 
-    data class test1(val x: Int, val y: Int) {
+    data class DataClass(val x: Int, val y: Int) {
         val z = x + y
     }
-    val O1 = object {
+    private val Obj = object {
         val x = 1
         override fun toString(): String {
             return "Object $x"
         }
     }
-    val c1 = test1(1, 2)
+    val c1 = DataClass(1, 2)
 
     @BeforeTest
     fun init() {
@@ -30,7 +30,7 @@ class KGLtest {
             addNeighbors("B", c1, 7, 8L, 8, "B", "B")
             connect("C", "a", EDbl(1.0, "Ca"))
             addNeighbors(c1, 2, 8L, "A")
-            addNeighbors("a", 2, O1, gIn)
+            addNeighbors("a", 2, Obj, gIn)
             addNeighbors("A", "a", 9L)
             addNeighbors(gIn, gIn, "a", 1, 2, "B", 1)
             connect("B", 8, EInt(8, "B8"))
@@ -104,8 +104,5 @@ class KGLtest {
         assertTrue(gA.hasNoose, "Has cycle")
         //gA.toGraphviz().show("C:\\tmp")
         //println("$gA")
-
     }
-
-
 }

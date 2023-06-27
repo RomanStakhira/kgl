@@ -1,3 +1,4 @@
+typealias GraphVertices = Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
 /**
  * @property [vertices] Main graph data storage
  * @return
@@ -5,8 +6,10 @@
 interface InterfaceGraph {
     val name: String
     val directed: Boolean?
-    val vertices: Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
+    val vertices: GraphVertices
+
     operator fun <T> get(v: T) = vertices[v as Any]?.toSet() ?: setOf<Any>()
+    operator fun contains(v: Any) = v in vertices.keys
     /**
      * Neighbors of vertex
      * @param [v] vertex
@@ -88,7 +91,5 @@ abstract class AbstractGraph : InterfaceGraph {
             }
             return allPositive
         }
-
-    operator fun contains(v: Any) = v in vertices.keys
 }
 
