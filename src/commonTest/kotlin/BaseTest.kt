@@ -150,55 +150,6 @@ class BaseTest {
         //g2.toGraphViz().show("C:\\tmp")
        /*
 
-        val gResult1 : MutableGraph = g  - 6 + 'A' - 2
-        assertFalse(2 in gResult1)
-        assertTrue('A' in gResult1)
-        //gResult1.toGraphViz().show("C:\\tmp")
-
-        init()
-
-        val gAdd1 = MutableGraph("Add1",false).also {
-            it.apply {
-                connect(5, 'a', edgeDefaultInt)
-                connect('b', 'a', EDbl(2.1, "ba"))
-                connect(2, 9.9, EDbl(9.9, "Double"))
-            }
-        }
-        val gAdd2 = MutableGraph("Add2",true).also {
-            it.apply {
-                connect(5, 'a', edgeDefaultInt)
-                connect('b', 'a', EDbl(2.1, "ba"))
-                connect(2, 9.9, EDbl(9.9, "Double"))
-            }
-        }
-
-        val gResult2 = g + gAdd2
-        assertTrue(9.9 in gResult2)
-
-        g+=gAdd2
-        assertEquals(gResult2, g)
-
-        assertFails{
-            g+=gAdd1 // the directed properties do not match
-        }
-
-        init()
-        // mixed Graph
-        val gResult3 = g + gAdd1
-        assertNull(gResult3.directed)
-        val gResult4 = gResult3 + gAdd1
-        assertNull(gResult4.directed)
-        val gResult5 = gResult3 + gAdd2
-        assertNull(gResult5.directed)
-
-        //gResult5.toGraphViz().show("C:\\tmp")
-        //g.toGraphViz().show("C:\\tmp")
-
-        init()
-        val gg = g.copy()
-       // g -="99"
-        gg -= 9.9
-        //gg.disconnectAll(3,5)
         gg.toGraphViz().show("C:\\tmp")
         g.toGraphViz().show("C:\\tmp")
 
