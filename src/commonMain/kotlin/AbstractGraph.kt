@@ -26,8 +26,8 @@ interface InterfaceGraph {
         }
 }
 
-abstract class Graph : InterfaceGraph {
-    override fun equals(other: Any?) = (other is Graph && vertices == other.vertices)
+abstract class AbstractGraph : InterfaceGraph {
+    override fun equals(other: Any?) = (other is AbstractGraph && vertices == other.vertices)
     override fun hashCode() = this::class.hashCode()
     /**
      * @return  Human-readable Graph string
@@ -89,8 +89,6 @@ abstract class Graph : InterfaceGraph {
             return allPositive
         }
 
-    operator fun <T> contains(v: T): Boolean {
-        return (v as Any) in vertices.keys
-    }
+    operator fun contains(v: Any) = v in vertices.keys
 }
 

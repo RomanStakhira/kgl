@@ -9,7 +9,7 @@
 class MutableGraph(
     override var name: String = "",
     override val directed: Boolean? = true
-) : Graph() {
+) : AbstractGraph() {
 
     override val vertices = mutableMapOf<Any, MutableSet<Pair<Any, InterfaceEdge<*>?>>>()
 
@@ -198,7 +198,7 @@ class MutableGraph(
      * @return NewGraph = Graph + Vertex
      */
     operator fun <E> plus(v: E): MutableGraph {
-        val tmp = this.clone("")
+        val tmp = this.clone("${this.name}+$v")
         tmp.addVertex(v)
         return tmp
     }
@@ -212,7 +212,7 @@ class MutableGraph(
      * @return NewGraph = Graph - Vertex
      */
     operator fun <E> minus(v: E): MutableGraph {
-        val tmp = this.clone("")
+        val tmp = this.clone("${this.name}+$v")
         tmp.rmVertex(v)
         return tmp
     }
@@ -245,7 +245,7 @@ class MutableGraph(
      * @param [other] Graph
      * @return a graph containing all vertices and edges from both
      */
-    operator fun plus(other: MutableGraph) = MutableGraph("${name}${other.name}", newDirected(other)).also {
+    operator fun plus(other: MutableGraph) = MutableGraph("${name}+${other.name}", newDirected(other)).also {
         //putAll  don't work
         (this.vertices.keys union other.vertices.keys).associateWithTo(it.vertices) { v ->
             val s = mutableSetOf<Pair<Any, InterfaceEdge<*>?>>().apply {
@@ -258,6 +258,13 @@ class MutableGraph(
 
 
     //-----------------------------------------------------------------------------------------
+    private fun <T> objInBundles(o: T): Boolean {
+        vertices.keys.forEach { v ->
+            if (vertices[v]!!.find { p-> p.first == o } != null) return true
+        }
+        return false
+    }
+
     operator fun minusAssign(other: MutableGraph){
         if (this.directed == other.directed) {
             val toProcess = (this.vertices.keys intersect  other.vertices.keys)
@@ -267,12 +274,7 @@ class MutableGraph(
                 "Instead use g = g1 - g2")
     }
 
-    private fun <T> objInBundles(o: T): Boolean {
-        vertices.keys.forEach { v ->
-            if (vertices[v]!!.find { p-> p.first == o } != null) return true
-        }
-        return false
-    }
+
 
     operator fun minus(other: MutableGraph): MutableGraph {
          this.directed?.let { t ->

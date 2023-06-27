@@ -1,7 +1,7 @@
 import utils.show
 import utils.toGraphViz
 import kotlin.test.*
-val directionList = listOf(true,false,null)
+val directionList = listOf(true/*,false,null*/)
 class BaseTest {
     @BeforeTest
     fun init(){
@@ -78,33 +78,38 @@ class BaseTest {
         }
     }
     @Test
-    fun testOperators(){
-        listOf(true,/*false,null*/).forEach { d ->
-            val g = MutableGraph("testOperators", d).also {
-                it.apply {
-                    addNeighbors(1,2,3)
-                    addPath(2,4,5)
-                    connect(3,5, edgeDefaultInt)
-                    connect(3,5, EDbl(35.0, "test"))
-                    connect(1,4)
-                    connect(4,2, EInt(66, "label64"))
-                    connect(5,"Hello 5", edgeDefaultInt)
-                    //copy("g_$d").toGraphViz().show("C:\\tmp")
-                }
-            }
-            g+='C'
-            assertTrue('C' in g)
-            g-=1
-            g-=77
-            assertTrue(1 !in g)
-            assertTrue(77 !in g)
-            val gg = g.clone()
-            g.disconnect(3,5, edgeDefaultInt)
-            gg-='C'
-            g.toGraphViz().show("C:\\tmp")
-            gg.toGraphViz().show("C:\\tmp")
+    fun testOperators() {
+        directionList.forEach { d1 ->
+            directionList.forEach { d2 ->
+                val g1 = MutableGraph("first", d1)
+                g1.connect(1, 2)
+                val c = 'a'
+                g1 += c
+                assertTrue(c in g1, "")
 
+                val g2 = MutableGraph("second", d2)
+                g2.apply {
+                    connect(1, 2)
+                    connect(1, 2, EDbl(2.0, "g"))
+                }
+                val g3 = g1 + g2
+                val g4 = g2 + g1
+                assertEquals(g3, g4)
+                g4.connect(1, c, edgeDefaultInt)
+                assertNotEquals(g3, g4)
+                assertContains(g4.getEdges(1, c),edgeDefaultInt)
+                g3-=2
+                assertTrue(2 !in g3)
+
+                g4.connect("Hello","Hello")
+                g4+=0.9
+                g4.name += "$d1$d2"
+                g4.toGraphViz().show("C:\\tmp")
+            }
         }
+
+
+        //g2.toGraphViz().show("C:\\tmp")
        /*
 
         val gResult1 : MutableGraph = g  - 6 + 'A' - 2

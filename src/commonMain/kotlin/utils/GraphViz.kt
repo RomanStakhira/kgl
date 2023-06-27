@@ -1,5 +1,5 @@
 package utils
-import MutableGraph
+import AbstractGraph
 
 enum class LayoutEngines {
     dot, neato, twopi, circo, fdp, osage, patchwork, sfdp
@@ -12,7 +12,7 @@ enum class LayoutEngines {
  * https://edotor.net/
  * @return String that can be passed to Graphviz
  */
-fun MutableGraph.toGraphViz(
+fun AbstractGraph.toGraphViz(
     labeled: Boolean = true, weighted: Boolean = true,
     concentrate: Boolean = true, colorMap: Map<Any, Int>? = null
 ): String {

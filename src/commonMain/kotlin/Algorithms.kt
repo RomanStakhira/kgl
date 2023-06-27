@@ -5,8 +5,8 @@
  * @param [seed]  Start vertex
  * @return Map<Any?, Int>(vertex, color) or empty map if [maxColors] has been exceeded
  */
-fun Graph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
-                          seed: Any? = null) : Map<Any, Int>{
+fun AbstractGraph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
+                                  seed: Any? = null) : Map<Any, Int>{
     if (hasNoose) throw Exception("Graph has noose")
     val colorMap = mutableMapOf<Any, Int>()
     val queue = mutableSetOf<Any>()
@@ -30,7 +30,7 @@ fun Graph.greedyColoring (maxColors: Int = Int.MAX_VALUE,
     return colorMap.toMap()
 }
 
-val Graph.chromaticNumber: Int
+val AbstractGraph.chromaticNumber: Int
     get(){
         return this.greedyColoring().values.maxOf{ it }+1
     }
