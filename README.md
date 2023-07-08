@@ -1,12 +1,17 @@
 # KGL
 Multiplatform Kotlin Graph Library.
+Pre-alpha
 
 KGL provides a simply to use platform independent graph library.
 
+
+
 ## Usage
-KGL is made by main interface [Graph](src/commonMain/kotlin/Graph.kt) and its 
+KGL is made by main interface [Graph](src/commonMain/kotlin/AbstractGraph.kt) and its 
 implementation [MutableGraph.kt](src/commonMain/kotlin/MutableGraph.kt).
 
+### Methods:
+Methods and their description can be obtained using the dokka plugin.
 
 ### Operators:
 * Vertex in Graph

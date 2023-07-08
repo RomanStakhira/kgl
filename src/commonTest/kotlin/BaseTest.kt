@@ -135,27 +135,14 @@ class BaseTest {
                     }
                 } else{
 
-                   // assertTrue("Hello" in g11)
-//                    g11.apply {
-//                        name = "11$d1$d2"
-//                        toGraphViz().show("C:\\tmp")
-//                    }
+
                 }
 
 
             }
         }
 
-
-        //g2.toGraphViz().show("C:\\tmp")
-       /*
-
-        gg.toGraphViz().show("C:\\tmp")
-        g.toGraphViz().show("C:\\tmp")
-
-        //println("$g  \n weightsPositive = ${g.weightsPositive}")
-        println("${false}")
-*/    }
+   }
 
 
 }

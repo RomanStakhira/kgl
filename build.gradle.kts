@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "lnu"
-version = "1.0"
+version = "Pre-alpha"
 
 repositories {
     mavenCentral()
