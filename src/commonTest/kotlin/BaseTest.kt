@@ -19,7 +19,7 @@ class BaseTest {
        // assertSame(g.vertices, gc.vertices, "Same vertices !")
         g.disconnect(2,3)
         g.rmVertices("S")
-        gc.toGraphViz().show("C:\\tmp")
+        //gc.toGraphViz().show("C:\\tmp")
         assertNotEquals(g,gc)
        // }
 
@@ -131,7 +131,7 @@ class BaseTest {
                     assertTrue("Hello" in g1)
                     g1.apply {
                         name = "1$d1$d2"
-                        toGraphViz().show("C:\\tmp")
+                        //toGraphViz().show("C:\\tmp")
                     }
                 } else{
 

@@ -45,9 +45,9 @@ class KGLtest {
         val goc = go.clone()
 
         goc.setEdges(edgeDefaultInt)
-        go.toGraphViz().show("C:\\tmp")
-        goc.toGraphViz().show("C:\\tmp",engine = LayoutEngines.twopi)
-        gIn.toGraphViz().show("C:\\tmp")
+        //go.toGraphViz().show("C:\\tmp")
+        //goc.toGraphViz().show("C:\\tmp",engine = LayoutEngines.twopi)
+        //gIn.toGraphViz().show("C:\\tmp")
     }
 
     @Test
