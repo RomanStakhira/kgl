@@ -56,7 +56,7 @@ class AlgorithmsTest {
         }
         /*
         val cm = mapOf<Any,Int>(1 to 1, 2 to 2, 3 to 3)
-        w.toGraphviz(colorMap = cm).show("C:\\tmp", LayoutEngines.sfdp)
+        w.toGraphviz(colorMap = cm).show("build", LayoutEngines.sfdp)
         println("$w  ${w.weightsPositive}")
          */
 
@@ -81,7 +81,7 @@ class AlgorithmsTest {
         }
         val cm = puc43.greedyColoring(8,'1')
         println("$cm  \n chromaticNumber=${puc43.chromaticNumber} \n Noose =  ${puc43.hasNoose}")
-       // puc43.toGraphViz(colorMap = cm).show("C:\\tmp", LayoutEngines.fdp)
+       // puc43.toGraphViz(colorMap = cm).show("build",LayoutEngines.fdp)
         assertEquals(4, puc43.chromaticNumber,"Wrong Chromatic Number!")
     }
 

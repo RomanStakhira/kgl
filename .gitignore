@@ -1,18 +1,9 @@
-
-
-# Log files
-*.log
-
 .idea
-
-# Ignore Gradle project-specific cache directory
 .gradle
-#.gitignore
-
-# Ignore Gradle build output directory
 build
 *.bin
 *.lock
+*.log
 
 
 

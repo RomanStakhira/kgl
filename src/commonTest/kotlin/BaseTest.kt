@@ -5,7 +5,7 @@ val directionList = listOf(true,false,null)
 class BaseTest {
     @Test
     fun testClone(){
-       // directionList.forEach{
+       directionList.forEach{
             val g = MutableGraph("src",false)
             g.apply {
                 g.connect(1,2)
@@ -13,16 +13,11 @@ class BaseTest {
                 g.connect(2,3,EDbl(9.0,"239"))
                 g.connect(3,1)
                 g.addVertices("S")
-                toGraphViz().show("C:\\tmp")
            }
         val gc = g.clone("copy")
-       // assertSame(g.vertices, gc.vertices, "Same vertices !")
-        g.disconnect(2,3)
-        g.rmVertices("S")
-        //gc.toGraphViz().show("C:\\tmp")
-        assertNotEquals(g,gc)
-       // }
-
+        assertNotSame(g.vertices, gc.vertices, "Same vertices !")
+        assertEquals(g,gc)
+       }
     }
     @Test
     fun testEquals(){
@@ -55,14 +50,14 @@ class BaseTest {
     }
     @Test
     fun testDisconnect(){
-        listOf(true,false,null).forEach { d ->
+        directionList.forEach { d ->
             val g = MutableGraph("testDisconnect", d).also{
             it.apply {
                 connect(1,2)
                 connect(1,2,EInt(1,"int"))
                 connect(1,2,EDbl(10.0,"double"))
                 connect(1,2,Edge<Short>(8))
-                //clone("$d").toGraphViz().show("C:\\tmp")
+                //clone("$d").toGraphViz().show()
             }
         }
         g.disconnect(1,2,EDbl(10.0,"double"))
@@ -126,23 +121,20 @@ class BaseTest {
                 }
 
                 val g11 = g1 - g2
+                println("$g11")
                 if (d1 == d2) {
                     g1-=g2
                     assertTrue("Hello" in g1)
                     g1.apply {
                         name = "1$d1$d2"
-                        //toGraphViz().show("C:\\tmp")
+                        //toGraphViz().show()
                     }
                 } else{
 
 
                 }
 
-
             }
         }
-
    }
-
-
 }

@@ -45,9 +45,9 @@ class KGLtest {
         val goc = go.clone()
 
         goc.setEdges(edgeDefaultInt)
-        //go.toGraphViz().show("C:\\tmp")
-        //goc.toGraphViz().show("C:\\tmp",engine = LayoutEngines.twopi)
-        //gIn.toGraphViz().show("C:\\tmp")
+        go.toGraphViz().show()
+        goc.toGraphViz().show(engine = LayoutEngines.twopi)
+        gIn.toGraphViz().show()
     }
 
     @Test
@@ -102,7 +102,7 @@ class KGLtest {
         gA.connect(5, 5)
         assertFalse(gA.weightsPositive!!, "Weights Negative")
         assertTrue(gA.hasNoose, "Has cycle")
-        //gA.toGraphviz().show("C:\\tmp")
+        //gA.toGraphviz().show()
         //println("$gA")
     }
 }
