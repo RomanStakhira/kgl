@@ -7,6 +7,10 @@ enum class LayoutEngines {
 
 /**
  * Generate string compatible with Graphviz DOT Language
+ * @param [labeled] Show label for Edge, default true.
+ * @param [weighted] Show wight for Edge, default true.
+ * @param [concentrate] See GraphViz docs.
+ * @param [colorMap] Colors for vertices Map<Vertex,Color>, default null.
  * @see <a href="https://graphviz.org/">Graphviz</a>
  * http://magjac.com/graphviz-visual-editor/
  * https://edotor.net/

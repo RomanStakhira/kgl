@@ -121,13 +121,13 @@ class BaseTest {
                 }
 
                 val g11 = g1 - g2
-                println("$g11")
+                //println("$g11")
                 if (d1 == d2) {
                     g1-=g2
                     assertTrue("Hello" in g1)
                     g1.apply {
                         name = "1$d1$d2"
-                        //toGraphViz().show()
+                        toGraphViz().show()
                     }
                 } else{
 

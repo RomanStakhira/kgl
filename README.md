@@ -2,7 +2,7 @@
 Multiplatform Kotlin Graph Library.
 Pre-alpha
 
-KGL provides a simply to use platform independent graph library.
+KGL provides a simply to use platform independent graph library.  It supports directed graphs, undirected graphs, mixed graphs and loops.
 
 
 
@@ -23,7 +23,7 @@ Methods and their description can be obtained using the dokka plugin.
 * Graph -= Vertex
 * NewGraph = Graph - Vertex
 
-### Goals
+### What's coming?
 - [x] Operators
 - [] Serialization  
 - [] Algorithms
@@ -32,3 +32,10 @@ Methods and their description can be obtained using the dokka plugin.
 - [] Graph DataBase
 
 [//]: # (@/serialization)
+
+## Copyright and license
+
+Code and documentation copyright 2023 the author. 
+Code released under the [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) license. 
+
+[//]: # (Docs released under [Creative Commons]&#40;docs/LICENSE&#41;.)

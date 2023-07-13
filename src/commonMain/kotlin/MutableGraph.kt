@@ -216,7 +216,7 @@ class MutableGraph(
         tmp.rmVertex(v)
         return tmp
     }
-//
+//-------------------------------------------------------------------------
     /**
      * @return new directed property from this & other graphs (null if properties in both graphs are different)
      * @param [other] Graph

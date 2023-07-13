@@ -47,7 +47,7 @@ class KGLtest {
         goc.setEdges(edgeDefaultInt)
         go.toGraphViz().show()
         goc.toGraphViz().show(engine = LayoutEngines.twopi)
-        gIn.toGraphViz().show()
+        //gIn.toGraphViz().show()
     }
 
     @Test

@@ -1,6 +1,6 @@
 typealias GraphVertices = Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
 /**
- * @property [vertices] Main graph data storage
+ * @property [vertices] Main graph data storage Map<Any, Set<Pair<Any, InterfaceEdge<*>?>>>
  * @return
  */
 interface InterfaceGraph {
