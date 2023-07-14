@@ -34,6 +34,7 @@ class KGLtest {
             addNeighbors("A", "a", 9L)
             addNeighbors(gIn, gIn, "a", 1, 2, "B", 1)
             connect("B", 8, EInt(8, "B8"))
+            connect(start = "B", finish = 8, edge = Edge(weight = 1, label = "LABEL"))
         }
     }
 

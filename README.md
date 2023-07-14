@@ -1,4 +1,5 @@
 # KGL
+____
 Multiplatform Kotlin Graph Library.
 Pre-alpha
 
@@ -7,13 +8,37 @@ KGL provides a simply to use platform independent graph library.  It supports di
 
 
 ## Usage
-KGL is made by main interface [Graph](src/commonMain/kotlin/AbstractGraph.kt) and its 
+____
+KGL is made by main interface [InterfaceGraph](src/commonMain/kotlin/AbstractGraph.kt) and its 
 implementation [MutableGraph.kt](src/commonMain/kotlin/MutableGraph.kt).
 
-### Methods:
-Methods and their description can be obtained using the dokka plugin.
 
-### Operators:
+```kotlin
+val g = MutableGraph(name = "Test Graph", directed = false)
+```
+`directed` can be `null` (mixed graph).
+
+Add a number of Vertices. The vertex can be any object.
+```kotlin
+g.addVertices("A", 1, 'b')
+```
+Connect two vertices with edge. Create if not exist.
+```kotlin
+connect(start = "A", finish = 8, edge = Edge(weight = 1, label = "LABEL"))
+```
+For visualization used [Graphviz](https://graphviz.org/).
+```kotlin
+goc.toGraphViz().show(engine = LayoutEngines.twopi)
+```
+
+
+More documentation coming soon.
+____
+### Methods
+
+Methods and their description can be obtained using the [dokka](https://github.com/Kotlin/dokka) plugin.
+
+### Operatorss
 * Vertex in Graph
 * Vertex !in Graph
 * Graph += Vertex
@@ -25,8 +50,8 @@ Methods and their description can be obtained using the dokka plugin.
 
 ### What's coming?
 - [x] Operators
-- [] Serialization  
 - [] Algorithms
+- [] Serialization
 - [] SubGraph
 - [] GraphML [Type-safe builders](https://kotlinlang.org/docs/type-safe-builders.html)
 - [] Graph DataBase

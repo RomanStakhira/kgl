@@ -9,9 +9,27 @@ actual fun String.show( workingDir: String, engine: LayoutEngines): Unit = let {
     File(workingDir).resolve(File("${name}.gv")).bufferedWriter().use { out ->
         out.write(s)
     }
-
-    println("${"cmd /c $engine -Tpng ${name}.gv > ${name}.png".runCommand(File(workingDir))}")
-    "cmd /c ${name}.png".runCommand(File(workingDir))
+    val os = System.getProperty("os.name").lowercase(Locale.getDefault())
+//    println("$ANSI_GREEN $os $ANSI_WHITE")
+    val osString: Pair<String, String> = when {
+        os.contains("win") -> {
+            "cmd /c  $engine -Tpng ${name}.gv > ${name}.png" to
+                    "cmd /c ${name}.png"
+        }
+        os.contains("nix") || os.contains("nux") ||
+                os.contains("aix") -> {
+            "$engine -Tpng ${name}.gv > ${name}.png" to
+                    "gnview ${name}.png &"
+        }
+        //os.contains("mac") -> ""
+        else -> {
+            "$engine -Tpng ${name}.gv > ${name}.png" to
+                    "${name}.png"
+        }
+    }
+//    println("$ANSI_BLUE $osString $ANSI_WHITE")
+    println("${osString.first.runCommand(File(workingDir))}")
+    println("${osString.second.runCommand(File(workingDir))}")
 }
 
 fun String.runCommand(
@@ -26,31 +44,3 @@ fun String.runCommand(
         .start().also { it.waitFor(timeoutAmount, timeoutUnit) }
         .inputStream.bufferedReader().readText()
 }.onFailure { it.printStackTrace() }.getOrNull()
-
-enum class OS {
-    WINDOWS, LINUX, MAC, SOLARIS
-}
-/**
- *@see https://www.techiedelight.com/determine-current-operating-system-kotlin/
- * @return OS
- */
-fun getOS(): OS? {
-    val os = System.getProperty("os.name").lowercase(Locale.getDefault())
-    return when {
-        os.contains("win") -> {
-            OS.WINDOWS
-        }
-        os.contains("nix") || os.contains("nux") || os.contains("aix") -> {
-            OS.LINUX
-        }
-        os.contains("mac") -> {
-            OS.MAC
-        }
-        os.contains("sunos") -> {
-            OS.SOLARIS
-        }
-        else -> null
-    }
-}
-
-
