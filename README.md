@@ -20,11 +20,11 @@ val g = MutableGraph(name = "Test Graph", directed = false)
 
 Add a number of Vertices. The vertex can be any object.
 ```kotlin
-g.addVertices("A", 1, 'b')
+g.addVertices("STR", 1, 'b')
 ```
 Connect two vertices with edge. Create if not exist.
 ```kotlin
-connect(start = "A", finish = 8, edge = Edge(weight = 1, label = "LABEL"))
+connect(start = "STR", finish = 8, edge = Edge(weight = 1, label = "LABEL"))
 ```
 For visualization used [Graphviz](https://graphviz.org/).
 ```kotlin
