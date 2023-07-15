@@ -26,6 +26,14 @@ kotlin {
             commonWebpackConfig {
                 cssSupport.enabled = true
             }
+            testTask {
+                useKarma {
+                    //useChromeHeadless()
+                    //useFirefox()
+                    useChrome()
+                }
+            }
+            binaries.executable()
         }
     }
     val hostOs = System.getProperty("os.name")
@@ -52,7 +60,13 @@ kotlin {
         val jvmMain by getting
         val jvmTest by getting
         val jsMain by getting
-        val jsTest by getting
+
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
+
         val nativeMain by getting
         val nativeTest by getting
     }
